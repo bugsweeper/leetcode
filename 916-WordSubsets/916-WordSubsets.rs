@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
 
+#[inline]
 fn to_statistic(word: &str) -> HashMap<u8, i32> {
     let mut result = HashMap::with_capacity(ABC_LEN);
     for &c in word.as_bytes() {
@@ -10,6 +11,7 @@ fn to_statistic(word: &str) -> HashMap<u8, i32> {
     result
 }
 
+#[inline]
 fn merge(into: &mut HashMap<u8, i32>, from: HashMap<u8, i32>) {
     for (c, count) in from {
         into.entry(c)
