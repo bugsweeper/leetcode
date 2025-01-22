@@ -1,4 +1,3 @@
-
 impl Solution {
     pub fn longest_consecutive(nums: Vec<i32>) -> i32 {
         if nums.len() == 0 {
@@ -12,14 +11,14 @@ impl Solution {
         for num in nums {
             match num - previous {
                 0 => continue,
-                1 => {
-                    cur_len += 1;
+                1 => cur_len += 1,
+                _ => {
                     max_len = max_len.max(cur_len);
+                    cur_len = 1;
                 }
-                _ => cur_len = 1,
             }
             previous = num;
         }
-        max_len
+        max_len.max(cur_len)
     }
 }
