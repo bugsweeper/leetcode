@@ -12,7 +12,8 @@ fn checker(node_index: usize, graph: &Vec<Vec<i32>>, states: &mut Vec<State>) ->
     }
     *state = State::Unsafe;
     for neighbor in &*unsafe{graph.get_unchecked(node_index)} {
-        if checker(*neighbor as usize, graph, states) == State::Unsafe {
+        let neighbor = *neighbor as usize;
+        if *unsafe{states.get_unchecked_mut(neighbor)} == State::Unsafe || checker(neighbor, graph, states) == State::Unsafe {
             return State::Unsafe
         }
     }
@@ -25,7 +26,7 @@ impl Solution {
         let mut states = vec![State::Unchecked; graph.len()];
         let mut result = Vec::with_capacity(graph.len());
         for i in 0..graph.len() {
-            if checker(i, &graph, &mut states) == State::Safe {
+            if *unsafe{states.get_unchecked_mut(i)} == State::Safe || checker(i, &graph, &mut states) == State::Safe {
                 result.push(i as i32);
             }
         }
