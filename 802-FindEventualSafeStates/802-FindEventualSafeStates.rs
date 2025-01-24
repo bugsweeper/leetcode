@@ -26,7 +26,7 @@ impl Solution {
         let mut states = vec![State::Unchecked; graph.len()];
         let mut result = Vec::with_capacity(graph.len());
         for i in 0..graph.len() {
-            if *unsafe{states.get_unchecked_mut(i)} == State::Safe || checker(i, &graph, &mut states) == State::Safe {
+            if checker(i, &graph, &mut states) == State::Safe {
                 result.push(i as i32);
             }
         }
