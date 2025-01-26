@@ -1,5 +1,6 @@
 use std::collections::{HashSet, VecDeque};
 
+#[inline]
 fn get_max_chain_to_node(dictionary: &[Vec<usize>], node: usize, exclude: usize) -> usize {
     let mut queue = VecDeque::new();
     queue.push_back((node, 0));
