@@ -7,8 +7,7 @@ impl Solution {
         points.sort_unstable();
         let mut arrows = 1;
         let mut current_end = points[0].1;
-        for balloon in points.into_iter().skip(1) {
-            let (start, end) = balloon;
+        for (start, end) in points.into_iter().skip(1) {
             if start > current_end {
                 arrows += 1;
                 current_end = end;
