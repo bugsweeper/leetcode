@@ -18,6 +18,7 @@ impl Solution {
     pub fn reverse_between(head: Option<Box<ListNode>>, left: i32, right: i32) -> Option<Box<ListNode>> {
         let mut head = head;
         let ref_node = &mut &mut head;
+        // Iterate to first disconnection point
         for _ in 1..left {
             *ref_node = &mut ref_node.as_mut().unwrap().next;
         }
@@ -27,6 +28,7 @@ impl Solution {
             let mut next_node = ref_node.take();
             // Reconnect node after next node to current
             std::mem::swap(*ref_node, &mut next_node.as_mut().unwrap().next);
+            // Save disconnected node
             stack.push(next_node);
         }
         while let Some(mut node) = stack.pop() {
