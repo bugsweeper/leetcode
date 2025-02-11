@@ -20,7 +20,7 @@ impl Solution {
         let ref_node = &mut &mut head;
         let reversed_node = &mut &mut None;
         while ref_node.is_some() {
-            // move reconnect head of input list to `reversed_list`
+            // reconnect head of input list to `reversed_list`
             std::mem::swap(*reversed_node, &mut ref_node.as_mut().unwrap().next);
             // now `reversed_list` contains input list tail, and reversed list is in input reference => swap them
             std::mem::swap(ref_node, reversed_node);
