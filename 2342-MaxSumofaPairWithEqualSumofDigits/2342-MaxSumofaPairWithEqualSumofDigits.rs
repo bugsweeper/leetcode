@@ -1,6 +1,7 @@
 impl Solution {
     pub fn maximum_sum(nums: Vec<i32>) -> i32 {
-        let mut pairs = vec![(0, 0); 82];
+        let mut digit_sum2max = [0; 82];
+        let mut max_sum = -1;
         for num in nums {
             let mut digit_sum = 0;
             {
@@ -10,24 +11,14 @@ impl Solution {
                     num /= 10;
                 }
             }
-            let (max1, max2) = unsafe { pairs.get_unchecked_mut(digit_sum as usize) };
-            if num >= *max1 {
-                *max2 = *max1;
-                *max1 = num;
-            } else if num >= *max2 {
-                *max2 = num;
+            let prev_max = *unsafe { digit_sum2max.get_unchecked(digit_sum as usize) };
+            if prev_max > 0 {
+                max_sum = max_sum.max(prev_max + num);
+            }
+            if num > prev_max {
+                *unsafe { digit_sum2max.get_unchecked_mut(digit_sum as usize) } = num;
             }
         }
-        pairs
-            .into_iter()
-            .map(|(max1, max2)| {
-                if max1 > 0 && max2 > 0 {
-                    max1 + max2
-                } else {
-                    -1
-                }
-            })
-            .max()
-            .unwrap_or(-1)
+        max_sum
     }
 }
