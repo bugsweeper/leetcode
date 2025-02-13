@@ -33,9 +33,11 @@ fn get_right_depth(node: &Option<Rc<RefCell<TreeNode>>>) -> u32 {
     get_right_depth(&node.as_deref().unwrap().borrow().right) + 1
 }
 
+// This function has two additional arguments for passing already defined depths
 fn count_nodes(node: &Option<Rc<RefCell<TreeNode>>>, left_depth: Option<u32>, right_depth: Option<u32>) -> u32 {
     let left_depth = left_depth.unwrap_or(get_left_depth(node));
     let right_depth = right_depth.unwrap_or(get_right_depth(node));
+    // if right side has equal depths then all subtree is fullfilled (including last row)
     if left_depth == right_depth {
         return 2_u32.pow(left_depth as u32) - 1;
     }
@@ -45,9 +47,10 @@ fn count_nodes(node: &Option<Rc<RefCell<TreeNode>>>, left_depth: Option<u32>, ri
     let left_child_right_depth = get_right_depth(left_child);
     let right_child_right_depth = right_depth - 1;
     if left_child_left_depth == left_child_right_depth {
-        let right_child = &ref_node.right;
-        2_u32.pow(left_child_left_depth) + count_nodes(right_child, None, Some(right_depth - 1))
+        // should not forget to count parent node
+        2_u32.pow(left_child_left_depth) + count_nodes(&ref_node.right, None, Some(right_child_right_depth))
     } else {
+        // if left side is not complete, then right side is complete, because all items in last row are at left side
         count_nodes(left_child, Some(left_child_left_depth), Some(left_child_right_depth)) + 2_u32.pow(right_child_right_depth)
     }
 }
