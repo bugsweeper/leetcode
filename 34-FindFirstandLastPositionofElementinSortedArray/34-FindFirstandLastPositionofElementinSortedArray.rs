@@ -37,7 +37,7 @@ impl Solution {
             base += 1;
         }
         if nums[base_for_last] != target {
-            base_for_last = base + 1;
+            base_for_last = base;
         }
         size = ceil - base_for_last;
         while size > 1 {
