@@ -44,7 +44,7 @@ fn fill_set(
  */
 impl FindElements {
     fn new(root: Option<Rc<RefCell<TreeNode>>>) -> Self {
-        let mut set = HashSet::with_capacity(10_000);
+        let mut set = HashSet::new();
         fill_set(&root, 0, &mut set);
         Self { set }
     }
