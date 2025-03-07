@@ -1,11 +1,10 @@
-use std::collections::{BTreeMap, HashMap};
+use std::collections::HashMap;
 
 struct TimeMap {
-    map: HashMap<String, BTreeMap<i32, String>>,
+    map: HashMap<String, Vec<(i32, String)>>,
 }
 
-
-/** 
+/**
  * `&self` means the method takes an immutable reference.
  * If you need a mutable reference, change it to `&mut self` instead.
  */
@@ -17,16 +16,16 @@ impl TimeMap {
     }
 
     fn set(&mut self, key: String, value: String, timestamp: i32) {
-        self.map.entry(key).or_default().insert(timestamp, value);
+        self.map.entry(key).or_default().push((timestamp, value));
     }
 
     fn get(&self, key: String, timestamp: i32) -> String {
         self.map
             .get(&key)
-            .map(|tree_map| {
-                tree_map
-                    .range(..=timestamp)
-                    .next_back()
+            .map(|sorted_vec| {
+                let index = sorted_vec.partition_point(|&(value_time, _)| value_time <= timestamp);
+                sorted_vec
+                    .get(index - 1)
                     .map(|(_, value)| value.clone())
                     .unwrap_or_default()
             })
