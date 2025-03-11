@@ -1,13 +1,13 @@
 const MAX_GRID_SIZE: usize = 300;
 
 #[inline]
-fn process_grid(i: usize, j: usize, grid: &mut Vec<Vec<char>>, stack: &mut Vec<(usize, usize)>) {
-    process_row(i, j, grid.get_mut(i).unwrap(), stack);
+fn process_grid(i: usize, j: usize, grid: &mut [Vec<char>], stack: &mut Vec<(usize, usize)>) {
+    process_row(i, j, unsafe { grid.get_unchecked_mut(i) }, stack);
 }
 
 #[inline]
-fn process_row(i: usize, j: usize, row: &mut Vec<char>, stack: &mut Vec<(usize, usize)>) {
-    let next = row.get_mut(j).unwrap();
+fn process_row(i: usize, j: usize, row: &mut [char], stack: &mut Vec<(usize, usize)>) {
+    let next = unsafe { row.get_unchecked_mut(j) };
     if *next == '1' {
         *next = '0';
         stack.push((i, j));
@@ -23,7 +23,7 @@ impl Solution {
         let mut stack = Vec::with_capacity(MAX_GRID_SIZE * MAX_GRID_SIZE);
         for i in 0..m {
             for j in 0..n {
-                let current = &mut grid[i][j];
+                let current = unsafe { grid.get_unchecked_mut(i).get_unchecked_mut(j) };
                 if *current == '1' {
                     result += 1;
                     *current = '0';
@@ -35,12 +35,12 @@ impl Solution {
                         if i < m - 1 {
                             process_grid(i + 1, j, &mut grid, &mut stack);
                         }
-                        let mut row = grid.get_mut(i).unwrap();
+                        let row = unsafe { grid.get_unchecked_mut(i) };
                         if j > 0 {
-                            process_row(i, j - 1, &mut row, &mut stack);
+                            process_row(i, j - 1, row, &mut stack);
                         }
                         if j < n - 1 {
-                            process_row(i, j + 1, &mut row, &mut stack);
+                            process_row(i, j + 1, row, &mut stack);
                         }
                     }
                 }
