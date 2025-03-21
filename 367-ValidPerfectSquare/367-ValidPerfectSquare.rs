@@ -1,3 +1,4 @@
+// Last updated: 21.03.2025, 16:30:33
 impl Solution {
     pub fn is_perfect_square(num: i32) -> bool {
         let mut base = 1;
