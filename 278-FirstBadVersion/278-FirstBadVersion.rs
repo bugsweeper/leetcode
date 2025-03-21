@@ -1,3 +1,4 @@
+// Last updated: 21.03.2025, 16:26:57
 // The API isBadVersion is defined for you.
 // isBadVersion(version:i32)-> bool;
 // to call it use self.isBadVersion(version)
