@@ -1,3 +1,4 @@
+// Last updated: 21.03.2025, 16:32:41
 const VOWELS: [u8; 10] = [b'A', b'E', b'I', b'O', b'U', b'a', b'e', b'i', b'o', b'u'];
 
 impl Solution {
