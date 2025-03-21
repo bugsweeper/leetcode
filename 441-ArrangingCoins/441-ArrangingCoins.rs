@@ -1,3 +1,4 @@
+// Last updated: 21.03.2025, 16:32:04
 impl Solution {
     pub fn arrange_coins(n: i32) -> i32 {
         let n = n as u64;
