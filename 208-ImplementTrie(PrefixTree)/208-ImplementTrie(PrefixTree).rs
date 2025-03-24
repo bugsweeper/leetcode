@@ -1,4 +1,4 @@
-// Last updated: 24.03.2025, 10:44:54
+// Last updated: 24.03.2025, 10:45:01
 struct Trie {
     node: Node,
 }
