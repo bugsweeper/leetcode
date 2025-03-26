@@ -1,4 +1,4 @@
-// Last updated: 26.03.2025, 12:14:30
+// Last updated: 26.03.2025, 12:16:28
 use std::cmp::Ordering;
 
 impl Solution {
@@ -44,9 +44,7 @@ impl Solution {
                                 middle = left;
                             }
                         }
-                        Ordering::Greater => {
-                            middle = left;
-                        }
+                        Ordering::Greater => middle = left,
                         Ordering::Less => middle = right,
                     };
                     balance += left_frequency;
