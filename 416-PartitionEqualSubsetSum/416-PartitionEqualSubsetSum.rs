@@ -1,4 +1,4 @@
-// Last updated: 07.04.2025, 13:55:38
+// Last updated: 07.04.2025, 13:57:39
 use std::cmp::Ordering;
 
 impl Solution {
@@ -15,7 +15,7 @@ impl Solution {
             let num = num as usize;
             match num.cmp(&sum) {
                 Ordering::Equal => return true,
-                Ordering::Greater => continue,
+                Ordering::Greater => return false,
                 _ => {}
             }
             if combined[sum - num] {
