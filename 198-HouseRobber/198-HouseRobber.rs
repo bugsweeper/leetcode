@@ -1,19 +1,15 @@
-// Last updated: 14.04.2025, 08:46:11
+// Last updated: 14.04.2025, 08:52:01
 impl Solution {
     pub fn rob(nums: Vec<i32>) -> i32 {
-        match nums.len() {
-            1 => nums[0],
-            2 => nums[0].max(nums[1]),
-            _ => {
-                let mut max_amount: Vec<i32> = Vec::with_capacity(nums.len());
-                max_amount.push(nums[0]);
-                max_amount.push(nums[0].max(nums[1]));
-                for (index, num) in nums.into_iter().enumerate().skip(2) {
-                    let current_amount = max_amount[index - 1].max(num + max_amount[index - 2]);
-                    max_amount.push(current_amount);
-                }
-                *max_amount.last().unwrap()
+        if nums.len() == 1 {
+            nums[0]
+        } else {
+            let mut prev2 = nums[0];
+            let mut prev1 = prev2.max(nums[1]);
+            for num in nums.into_iter().skip(2) {
+                (prev2, prev1) = (prev1, prev1.max(num + prev2));
             }
+            prev1
         }
     }
 }
