@@ -1,4 +1,4 @@
-// Last updated: 24.04.2025, 13:11:31
+// Last updated: 24.04.2025, 13:13:05
 #[inline]
 fn is_self_dividing(number: i32) -> bool {
     let mut remaining = number;
@@ -14,7 +14,7 @@ fn is_self_dividing(number: i32) -> bool {
 
 impl Solution {
     pub fn self_dividing_numbers(left: i32, right: i32) -> Vec<i32> {
-        let mut array = Vec::with_capacity(10000);
+        let mut array = Vec::with_capacity(339);
         for i in left..=right {
             if is_self_dividing(i) {
                 array.push(i);
