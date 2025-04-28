@@ -1,4 +1,4 @@
-// Last updated: 28.04.2025, 13:03:24
+// Last updated: 28.04.2025, 13:04:33
 const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
 
 fn get_statistic(s: &[u8]) -> [usize; ABC_LEN] {
@@ -33,7 +33,7 @@ impl Solution {
                     continue;
                 }
                 let prev = state[index1][index3 - index1];
-                state[index1 + 1][index3 - index1/* s2.len() is max */] |= prev;
+                state[index1 + 1][index3 - index1] |= prev;
                 at_least_one |= prev;
             }
             let min_index2 = if index3 > s1.len() {index3 - s1.len()} else {0};
