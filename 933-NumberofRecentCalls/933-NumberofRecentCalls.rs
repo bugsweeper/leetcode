@@ -1,30 +1,18 @@
-// Last updated: 12.05.2025, 23:50:49
-use std::cmp::Ordering;
-
+// Last updated: 13.05.2025, 16:29:55
 impl Solution {
-    pub fn valid_mountain_array(arr: Vec<i32>) -> bool {
-        let mut prev = arr[0];
-        let mut middle = 0;
-        for (index, height) in arr.iter().skip(1).enumerate() {
-            match prev.cmp(height) {
-                Ordering::Greater => {
-                    middle = index;
-                    break;
-                }
-                Ordering::Equal => return false,
-                _ => {}
+    pub fn di_string_match(s: String) -> Vec<i32> {
+        let (mut low, mut high) = (0, s.len() as i32);
+        let mut result = Vec::with_capacity(s.len() + 1);
+        for &direction in s.as_bytes() {
+            if direction == b'I' {
+                result.push(low);
+                low += 1;
+            } else {
+                result.push(high);
+                high -= 1;
             }
-            prev = *height;
         }
-        if middle == 0 || middle == arr.len() - 1 {
-            return false;
-        }
-        for &height in &arr[middle + 1..] {
-            if height >= prev {
-                return false;
-            }
-            prev = height
-        }
-        true
+        result.push(low);
+        result
     }
 }
