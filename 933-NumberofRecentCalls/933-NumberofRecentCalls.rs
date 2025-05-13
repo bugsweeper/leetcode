@@ -1,18 +1,19 @@
-// Last updated: 13.05.2025, 16:29:55
+// Last updated: 13.05.2025, 16:58:26
 impl Solution {
-    pub fn di_string_match(s: String) -> Vec<i32> {
-        let (mut low, mut high) = (0, s.len() as i32);
-        let mut result = Vec::with_capacity(s.len() + 1);
-        for &direction in s.as_bytes() {
-            if direction == b'I' {
-                result.push(low);
-                low += 1;
-            } else {
-                result.push(high);
-                high -= 1;
+    pub fn min_deletion_size(strs: Vec<String>) -> i32 {
+        let str_len = strs[0].len();
+        let mut deleted = 0;
+        for j in 0..str_len {
+            let mut prev = strs[0].as_bytes()[j];
+            for row in strs.iter().skip(1) {
+                let cur = row.as_bytes()[j];
+                if cur < prev {
+                    deleted += 1;
+                    break;
+                }
+                prev = cur;
             }
         }
-        result.push(low);
-        result
+        deleted
     }
 }
