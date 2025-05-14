@@ -1,29 +1,16 @@
-// Last updated: 14.05.2025, 14:58:04
-use std::cmp::Ordering;
-
-const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
+// Last updated: 14.05.2025, 16:01:24
+use std::collections::HashSet;
 
 impl Solution {
-    pub fn is_alien_sorted(words: Vec<String>, order: String) -> bool {
-        let mut indexes = vec![0; ABC_LEN];
-        for (index, &c) in order.as_bytes().iter().enumerate() {
-            indexes[(c - b'a') as usize] = index;
-        }
-        'words: for slice in words.windows(2) {
-            let [first, second] = slice else {
-                unimplemented!()
-            };
-            for (first, second) in first.as_bytes().iter().zip(second.as_bytes()) {
-                match indexes[(first - b'a') as usize].cmp(&indexes[(second - b'a') as usize]) {
-                    Ordering::Greater => return false,
-                    Ordering::Less => continue 'words,
-                    _ => {}
-                }
+    pub fn repeated_n_times(nums: Vec<i32>) -> i32 {
+        let mut seen = vec![false; 10000];
+        for num in nums {
+            let seen = seen.get_mut(num as usize).unwrap();
+            if *seen {
+                return num;
             }
-            if first.len() > second.len() {
-                return false;
-            }
+            *seen = true;
         }
-        true
+        0
     }
 }
