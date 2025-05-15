@@ -1,25 +1,22 @@
-// Last updated: 15.05.2025, 15:23:29
-const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
-
+// Last updated: 15.05.2025, 21:02:24
 impl Solution {
-    pub fn common_chars(words: Vec<String>) -> Vec<String> {
-        let mut min = [usize::MAX; ABC_LEN];
-        for word in words {
-            let mut frequency = [0; ABC_LEN];
-            for &byte in word.as_bytes() {
-                frequency[(byte - b'a') as usize] += 1;
-            }
-            for (min, frequency) in min.iter_mut().zip(frequency) {
-                *min = (*min).min(frequency);
-            }
+    pub fn largest_sum_after_k_negations(nums: Vec<i32>, k: i32) -> i32 {
+        let mut nums = nums;
+        nums.sort_unstable();
+        let negative_count = nums.partition_point(|&num| num < 0);
+        let mut k = k as usize;
+        if k > nums.len() {
+            k = if nums.len() & 1 == k & 1 { nums.len() } else { nums.len() - 1 };
         }
-        let mut result = Vec::with_capacity(100);
-        for (index, min) in min.into_iter().enumerate() {
-            let character = (index as u8 + b'a') as char;
-            for _ in 0..min {
-                result.push(character.into());
-            }
-        }
-        result
+        let operations = if negative_count >= k {
+            k
+        } else if (k - negative_count) & 1 == 0 {
+            negative_count
+        } else if negative_count > 0 && nums[negative_count] > -nums[negative_count - 1] {
+            negative_count - 1
+        } else {
+            negative_count + 1
+        };
+        nums.iter().skip(operations).sum::<i32>() - nums.iter().take(operations).sum::<i32>()
     }
 }
