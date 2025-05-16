@@ -1,38 +1,20 @@
-// Last updated: 16.05.2025, 23:00:16
-// Definition for a binary tree node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct TreeNode {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<TreeNode>>>,
-//   pub right: Option<Rc<RefCell<TreeNode>>>,
-// }
-// 
-// impl TreeNode {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     TreeNode {
-//       val,
-//       left: None,
-//       right: None
-//     }
-//   }
-// }
-use std::rc::Rc;
-use std::cell::RefCell;
-
-fn sum_root_to_leaf(node: &Option<Rc<RefCell<TreeNode>>>, prefix: i32) -> i32 {
-    let node_ref = node.as_ref().unwrap().borrow();
-    let value = (prefix << 1) + node_ref.val;
-    match (node_ref.left.is_some(), node_ref.right.is_some()) {
-        (true, true) => sum_root_to_leaf(&node_ref.left, value) + sum_root_to_leaf(&node_ref.right, value),
-        (true, _) => sum_root_to_leaf(&node_ref.left, value),
-        (_, true) => sum_root_to_leaf(&node_ref.right, value),
-        _ => value
-    }
-}
-
+// Last updated: 16.05.2025, 23:39:39
 impl Solution {
-    pub fn sum_root_to_leaf(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        sum_root_to_leaf(&root, 0)
+    pub fn divisor_game(n: i32) -> bool {
+        if n == 1 {
+            return false;
+        }
+        let n = n as usize;
+        let mut wins = vec![false; n + 1];
+        wins[2] = true;
+        for i in 3..=n {
+            for j in 1..i {
+                if !wins[i - j] && i % j == 0 {
+                    wins[i] = true;
+                    break;
+                }
+            }
+        }
+        wins[n]
     }
 }
