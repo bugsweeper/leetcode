@@ -1,25 +1,38 @@
-// Last updated: 16.05.2025, 22:02:38
+// Last updated: 16.05.2025, 23:00:16
+// Definition for a binary tree node.
+// #[derive(Debug, PartialEq, Eq)]
+// pub struct TreeNode {
+//   pub val: i32,
+//   pub left: Option<Rc<RefCell<TreeNode>>>,
+//   pub right: Option<Rc<RefCell<TreeNode>>>,
+// }
+// 
+// impl TreeNode {
+//   #[inline]
+//   pub fn new(val: i32) -> Self {
+//     TreeNode {
+//       val,
+//       left: None,
+//       right: None
+//     }
+//   }
+// }
+use std::rc::Rc;
+use std::cell::RefCell;
+
+fn sum_root_to_leaf(node: &Option<Rc<RefCell<TreeNode>>>, prefix: i32) -> i32 {
+    let node_ref = node.as_ref().unwrap().borrow();
+    let value = (prefix << 1) + node_ref.val;
+    match (node_ref.left.is_some(), node_ref.right.is_some()) {
+        (true, true) => sum_root_to_leaf(&node_ref.left, value) + sum_root_to_leaf(&node_ref.right, value),
+        (true, _) => sum_root_to_leaf(&node_ref.left, value),
+        (_, true) => sum_root_to_leaf(&node_ref.right, value),
+        _ => value
+    }
+}
+
 impl Solution {
-    pub fn remove_outer_parentheses(s: String) -> String {
-        let mut result = String::with_capacity(s.len());
-        let mut start_index = 1;
-        while start_index < s.len() {
-            let mut brackets = 1;
-            for (index, &byte) in s.as_bytes().iter().enumerate().skip(start_index) {
-                if byte == b')' {
-                    brackets -= 1;
-                    if brackets == 0 {
-                        if start_index != index - 1 {
-                            result.push_str(&s[start_index..index]);
-                        }
-                        start_index = index + 2;
-                        break;
-                    }
-                } else {
-                    brackets += 1;
-                }
-            }
-        }
-        result
+    pub fn sum_root_to_leaf(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        sum_root_to_leaf(&root, 0)
     }
 }
