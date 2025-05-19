@@ -1,20 +1,14 @@
-// Last updated: 19.05.2025, 15:19:08
+// Last updated: 19.05.2025, 15:22:08
 impl Solution {
-    pub fn distribute_candies(candies: i32, num_people: i32) -> Vec<i32> {
-        let mut candy = 1;
-        let mut people = vec![0; num_people as usize];
-        let mut candies = candies;
-        loop {
-            for human in people.iter_mut() {
-                let give = candy.min(candies);
-                *human += give;
-                candies -= give;
-                if candies == 0 {
-                    return people;
-                }
-                candy += 1;
+    pub fn defang_i_paddr(address: String) -> String {
+        let mut defanged = String::with_capacity(address.len() + 8);
+        for character in address.chars() {
+            if character == '.' {
+                defanged.push_str("[.]");
+            } else {
+                defanged.push(character);
             }
         }
-        people
+        defanged
     }
 }
