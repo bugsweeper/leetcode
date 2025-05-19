@@ -1,24 +1,20 @@
-// Last updated: 19.05.2025, 13:51:44
+// Last updated: 19.05.2025, 15:08:00
 impl Solution {
-    pub fn find_ocurrences(text: String, first: String, second: String) -> Vec<String> {
-        let mut iter = text.split_ascii_whitespace();
-        let mut word1 = if let Some(word) = iter.next() {
-            word
-        } else {
-            return Vec::new();
-        };
-        let mut word2 = if let Some(word) = iter.next() {
-            word
-        } else {
-            return Vec::new();
-        };
-        let mut thirds = Vec::new();
-        for word3 in iter {
-            if word1 == first && word2 == second {
-                thirds.push(word3.into());
+    pub fn duplicate_zeros(arr: &mut Vec<i32>) {
+        let mut zeros = Vec::with_capacity(arr.len() / 2);
+        for (index, &num) in arr.iter().enumerate() {
+            if num == 0 {
+                if index + zeros.len() >= arr.len() - 1 {
+                    break;
+                }
+                zeros.push(index);
             }
-            (word1, word2) = (word2, word3)
         }
-        thirds
+        let mut end = arr.len() - zeros.len();
+        for (prev_count, zero_index) in zeros.into_iter().enumerate().rev() {
+            arr.copy_within(zero_index..end, zero_index + prev_count + 1);
+            arr[zero_index + prev_count] = 0;
+            end = zero_index;
+        }
     }
 }
