@@ -1,22 +1,18 @@
-// Last updated: 19.05.2025, 11:36:37
-use std::collections::BinaryHeap;
-
+// Last updated: 19.05.2025, 11:51:24
 impl Solution {
-    pub fn last_stone_weight(stones: Vec<i32>) -> i32 {
-        let mut heap = stones.into_iter().collect::<BinaryHeap<_>>();
-        loop {
-            if let Some(y) = heap.pop() {
-                if let Some(x) = heap.pop() {
-                    if y > x {
-                        heap.push(y - x);
-                    }
+    pub fn remove_duplicates(s: String) -> String {
+        let mut stack = Vec::with_capacity(s.len());
+        for byte in s.as_bytes() {
+            if let Some(last) = stack.last() {
+                if last == byte {
+                    stack.pop();
                 } else {
-                    return y;
+                    stack.push(*byte);
                 }
             } else {
-                return 0;
+                stack.push(*byte);
             }
         }
-        unimplemented!();
+        String::from_utf8(stack).unwrap()
     }
 }
