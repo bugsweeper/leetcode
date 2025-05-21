@@ -1,22 +1,27 @@
-// Last updated: 21.05.2025, 16:31:52
+// Last updated: 21.05.2025, 16:45:21
 impl Solution {
-    pub fn check_straight_line(coordinates: Vec<Vec<i32>>) -> bool {
-        let mut iter = coordinates.into_iter();
-        let [x0, y0] = iter.next().unwrap()[..] else {
-            unimplemented!();
-        };
-        let [x1, y1] = iter.next().unwrap()[..] else {
-            unimplemented!();
-        };
-        let (dx0, dy0) = (x1 - x0, y1 - y0);
-        for slice in iter {
-            let [x, y] = slice[..] else {
+    pub fn odd_cells(m: i32, n: i32, indices: Vec<Vec<i32>>) -> i32 {
+        let mut columns = vec![0; n as usize];
+        let mut rows = vec![0; m as usize];
+        for point in indices {
+            let [i, j] = point[..] else {
                 unimplemented!();
             };
-            if (x - x0) * dy0 != dx0 * (y - y0) {
-                return false;
+            columns[j as usize] += 1;
+            rows[i as usize] += 1;
+        }
+        let (mut odd, mut even) = (0, 0);
+        for column in columns {
+            if column & 1 == 0 {
+                even += 1;
+            } else {
+                odd += 1;
             }
         }
-        true
+        let mut odd_cells = 0;
+        for row in rows {
+            odd_cells += if row & 1 == 0 { odd } else { even };
+        }
+        odd_cells
     }
 }
