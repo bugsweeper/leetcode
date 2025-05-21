@@ -1,14 +1,18 @@
-// Last updated: 21.05.2025, 15:05:37
+// Last updated: 21.05.2025, 16:24:11
 impl Solution {
-    pub fn min_cost_to_move_chips(position: Vec<i32>) -> i32 {
-        let (mut even, mut odd) = (0, 0);
-        for position in position {
-            if position & 1 == 0 {
-                even += 1;
+    pub fn balanced_string_split(s: String) -> i32 {
+        let mut balance = 0;
+        let mut count = 0;
+        for &byte in s.as_bytes() {
+            if byte == b'L' {
+                balance += 1;
             } else {
-                odd += 1;
+                balance -= 1;
+            }
+            if balance == 0 {
+                count += 1;
             }
         }
-        odd.min(even)
+        count
     }
 }
