@@ -1,24 +1,12 @@
-// Last updated: 21.05.2025, 13:05:07
-const MODULO: i64 = 1_000_000_007;
-const PRIMES: [i32; 25] = [
-    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
-];
-const FACTORIALS: [i64; 76] = [
-    1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600, 227020758,
-    178290591, 674358851, 789741546, 425606191, 660911389, 557316307, 146326063, 72847302,
-    602640637, 860734560, 657629300, 440732388, 459042011, 394134213, 35757887, 36978716,
-    109361473, 390205642, 486580460, 57155068, 943272305, 14530444, 523095984, 354551275,
-    472948359, 444985875, 799434881, 776829897, 626855450, 954784168, 10503098, 472639410,
-    741412713, 846397273, 627068824, 726372166, 318608048, 249010336, 948537388, 272481214,
-    713985458, 269199917, 75195247, 286129051, 595484846, 133605669, 16340084, 996745124,
-    798197261, 286427093, 331333826, 536698543, 422103593, 280940535, 103956247, 172980994,
-    108669496, 715534167, 518459667, 847555432, 719101534, 932614679,
-];
-
+// Last updated: 21.05.2025, 13:19:08
 impl Solution {
-    pub fn num_prime_arrangements(n: i32) -> i32 {
-        let primes = PRIMES.partition_point(|&prime| prime <= n);
-        let n = n as usize;
-        (FACTORIALS[primes] * FACTORIALS[n - primes] % MODULO) as i32
+    pub fn distance_between_bus_stops(distance: Vec<i32>, start: i32, destination: i32) -> i32 {
+        let (mut start, mut destination) = (start as usize, destination as usize);
+        if (start > destination) {
+            (start, destination) = (destination, start);
+        }
+        let total_sum = distance.iter().sum::<i32>();
+        let sub_sum = distance[start..destination].iter().sum::<i32>();
+        sub_sum.min(total_sum - sub_sum)
     }
 }
