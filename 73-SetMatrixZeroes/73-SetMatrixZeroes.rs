@@ -1,68 +1,67 @@
+// Last updated: 21.05.2025, 10:26:04
 impl Solution {
     pub fn set_zeroes(matrix: &mut Vec<Vec<i32>>) {
-        let m = matrix.len();
-        let n = unsafe{matrix.get_unchecked(0).len()};
-        let mut marker_row = usize::MAX;
-        let mut marker_column = usize::MAX;
+        let n = matrix.first().unwrap().len();
+        let mut marker_row_index = usize::MAX;
+        let mut marker_column_index = usize::MAX;
         'search: for (row_index, row) in matrix.iter().enumerate() {
             for (column_index, &cell) in row.iter().enumerate() {
                 if cell == 0 {
-                    marker_row = row_index;
-                    marker_column = column_index;
+                    marker_row_index = row_index;
+                    marker_column_index = column_index;
                     break 'search;
                 }
             }
         }
         // could be no zeros
-        if marker_row == usize::MAX {
+        if marker_row_index == usize::MAX {
             return;
         }
         // mark all rows and column
-        for i in marker_row + 1..m {
+        let (with_marker, checked) = matrix.split_at_mut(marker_row_index + 1);
+        let marker_row = with_marker.last_mut().unwrap();
+        for checked_row in checked {
             for j in 0..n {
-                if unsafe{*matrix.get_unchecked(i).get_unchecked(j)} == 0 {
-                    *unsafe{matrix.get_unchecked_mut(i).get_unchecked_mut(marker_column)} = 0;
-                    *unsafe{matrix.get_unchecked_mut(marker_row).get_unchecked_mut(j)} = 0;
+                if checked_row[j] == 0 {
+                    checked_row[marker_column_index] = 0;
+                    marker_row[j] = 0;
                 }
             }
         }
         // fill rows
-        for i in 0..m {
+        for (i, row) in matrix.iter_mut().enumerate() {
             // except marker row
-            if i == marker_row {
+            if i == marker_row_index {
                 continue;
             }
-            if unsafe{*matrix.get_unchecked(i).get_unchecked(marker_column)} != 0 {
+            if row[marker_column_index] != 0 {
                 continue;
             }
-            let row = unsafe{matrix.get_unchecked_mut(i)};
-            for j in 0..n {
-                *unsafe{row.get_unchecked_mut(j)} = 0;
+            for cell in row {
+                *cell = 0;
             }
         }
         // fill columns
         for j in 0..n {
             // except marker column
-            if j == marker_column {
+            if j == marker_column_index {
                 continue;
             }
-            if unsafe{*matrix.get_unchecked(marker_row).get_unchecked(j)} != 0 {
+            if matrix[marker_row_index][j] != 0 {
                 continue;
             }
-            for i in 0..m {
-                *unsafe{matrix.get_unchecked_mut(i).get_unchecked_mut(j)} = 0;
+            for row in matrix.iter_mut() {
+                row[j] = 0;
             }
         }
         // fill marker row
-        {
-            let row = unsafe{matrix.get_unchecked_mut(marker_row)};
-            for j in 0..n {
-                *unsafe{row.get_unchecked_mut(j)} = 0;
-            }
+        let row = &mut matrix[marker_row_index];
+        for cell in row {
+            *cell = 0;
         }
         // fill marker column
-        for i in 0..m {
-            *unsafe{matrix.get_unchecked_mut(i).get_unchecked_mut(marker_column)} = 0;
+        for row in matrix {
+            row[marker_column_index] = 0;
         }
     }
 }
