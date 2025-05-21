@@ -1,24 +1,38 @@
-// Last updated: 21.05.2025, 14:39:34
-const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
-
-fn count_chars(text: &[u8]) -> [i32; ABC_LEN] {
-    let mut chars_count = [0; ABC_LEN];
-    for &c in text {
-        chars_count[(c - b'a') as usize] += 1;
-    }
-    chars_count
-}
+// Last updated: 21.05.2025, 14:54:25
+use std::cmp::Ordering;
 
 impl Solution {
-    pub fn max_number_of_balloons(text: String) -> i32 {
-        let goal_count = count_chars("balloon".as_bytes());
-        let chars_count = count_chars(text.as_bytes());
-        goal_count.iter().zip(chars_count.iter()).filter_map(|(goal, current)| {
-            if *goal > 0 {
-                Some(current / goal)
+    pub fn minimum_abs_difference(arr: Vec<i32>) -> Vec<Vec<i32>> {
+        let mut arr = arr;
+        arr.sort_unstable();
+        let mut min_difference = i64::MAX;
+        let mut difference_count = 0;
+        for slice in arr.windows(2) {
+            let &[a, b] = slice else {
+                unimplemented!();
+            };
+            let difference = b as i64 - a as i64;
+            match difference.cmp(&min_difference) {
+                Ordering::Less => {
+                    min_difference = difference;
+                    difference_count = 1;
+                }
+                Ordering::Equal => difference_count += 1,
+                _ => {}
+            }
+        }
+        let mut result = Vec::with_capacity(difference_count);
+        result.extend(arr.windows(2).filter_map(|slice| {
+            let &[a, b] = slice else {
+                unimplemented!();
+            };
+            let difference = b as i64 - a as i64;
+            if difference == min_difference {
+                Some(vec![a, b])
             } else {
                 None
             }
-        }).min().unwrap() as i32
+        }));
+        result
     }
 }
