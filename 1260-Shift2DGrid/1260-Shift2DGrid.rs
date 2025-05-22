@@ -1,17 +1,15 @@
-// Last updated: 22.05.2025, 14:12:41
+// Last updated: 22.05.2025, 14:14:32
 impl Solution {
-    pub fn min_time_to_visit_all_points(points: Vec<Vec<i32>>) -> i32 {
-        let &[mut x_prev, mut y_prev] = &points.first().unwrap()[..] else {
-            unimplemented!();
-        };
-        let mut time = 0;
-        for point in points.into_iter().skip(1) {
-            let &[x, y] = &point[..] else {
-                unimplemented!();
-            };
-            time += (x - x_prev).abs().max((y - y_prev).abs());
-            (x_prev, y_prev) = (x, y)
+    pub fn subtract_product_and_sum(n: i32) -> i32 {
+        let mut sum = 0;
+        let mut product = 1;
+        let mut n = n;
+        while n > 0 {
+            let digit = n % 10;
+            sum += digit;
+            product *= digit;
+            n /= 10;
         }
-        time
+        product - sum
     }
 }
