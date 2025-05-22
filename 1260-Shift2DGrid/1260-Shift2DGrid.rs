@@ -1,15 +1,13 @@
-// Last updated: 22.05.2025, 15:31:16
+// Last updated: 22.05.2025, 15:38:39
 impl Solution {
-    pub fn freq_alphabets(s: String) -> String {
-        let mut decrypted = Vec::with_capacity(s.len());
-        let mut iter = s.as_bytes().iter().rev();
-        while let Some(&byte) = iter.next() {
-            if byte == b'#' {
-                decrypted.push(*iter.next().unwrap() - b'0' + 10 * (*iter.next().unwrap() - b'1') + b'j');
-            } else {
-                decrypted.push(byte - b'1' + b'a');
-            }
+    pub fn decompress_rl_elist(nums: Vec<i32>) -> Vec<i32> {
+        let mut result = Vec::with_capacity(nums.len() / 2);
+        for slice in nums.chunks(2) {
+            let &[freq, val] = slice else {
+                unimplemented!();
+            };
+            result.extend(std::iter::repeat_n(val, freq as usize));
         }
-        decrypted.into_iter().map(|byte| byte as char).rev().collect::<String>()
+        result
     }
 }
