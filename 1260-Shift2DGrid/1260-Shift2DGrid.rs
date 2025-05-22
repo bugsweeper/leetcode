@@ -1,16 +1,17 @@
-// Last updated: 22.05.2025, 14:04:18
+// Last updated: 22.05.2025, 14:12:41
 impl Solution {
-    pub fn shift_grid(grid: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {
-        let m = grid.len();
-        let n = grid.first().unwrap().len();
-        let mn = m * n;
-        let mut iter = grid.into_iter().flatten().cycle().skip(mn - k as usize % mn).take(mn);
-        let mut result = vec![vec![0; n]; m];
-        for row in &mut result {
-            for cell in row {
-                *cell = iter.next().unwrap();
-            }
+    pub fn min_time_to_visit_all_points(points: Vec<Vec<i32>>) -> i32 {
+        let &[mut x_prev, mut y_prev] = &points.first().unwrap()[..] else {
+            unimplemented!();
+        };
+        let mut time = 0;
+        for point in points.into_iter().skip(1) {
+            let &[x, y] = &point[..] else {
+                unimplemented!();
+            };
+            time += (x - x_prev).abs().max((y - y_prev).abs());
+            (x_prev, y_prev) = (x, y)
         }
-        result
+        time
     }
 }
