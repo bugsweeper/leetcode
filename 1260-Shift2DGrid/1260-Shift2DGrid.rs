@@ -1,16 +1,29 @@
-// Last updated: 22.05.2025, 14:31:33
+// Last updated: 22.05.2025, 14:40:37
+// Definition for singly-linked list.
+// #[derive(PartialEq, Eq, Clone, Debug)]
+// pub struct ListNode {
+//   pub val: i32,
+//   pub next: Option<Box<ListNode>>
+// }
+// 
+// impl ListNode {
+//   #[inline]
+//   fn new(val: i32) -> Self {
+//     ListNode {
+//       next: None,
+//       val
+//     }
+//   }
+// }
 impl Solution {
-    pub fn find_special_integer(arr: Vec<i32>) -> i32 {
-        let candidates = [*arr.first().unwrap(), arr[arr.len() / 4], arr[arr.len() / 2], arr[3 * arr.len() / 4]];
-        let mut max_count = 0;
-        let mut goal = i32::MAX;
-        for candidate in candidates {
-            let count = arr.partition_point(|&num| num <= candidate) - arr.partition_point(|&num| num < candidate);
-            if count > max_count {
-                goal = candidate;
-                max_count = count;
-            }
+    pub fn get_decimal_value(head: Option<Box<ListNode>>) -> i32 {
+        let mut node = &head;
+        let mut value = 0;
+        while node.is_some() {
+            let node_ref = node.as_ref().unwrap();
+            value = (value << 1) + node_ref.val;
+            node = &node_ref.next;
         }
-        goal
+        value
     }
 }
