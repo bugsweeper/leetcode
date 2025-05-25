@@ -1,4 +1,4 @@
-// Last updated: 25.05.2025, 06:30:47
+// Last updated: 25.05.2025, 06:34:51
 const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
 
 impl Solution {
@@ -20,8 +20,8 @@ impl Solution {
                 unused_words[i1 * ABC_LEN + i2] += 1;
             }
         }
-        for i in (0..ABC_LEN * ABC_LEN).step_by(ABC_LEN + 1) {
-            if unused_words[i] > 0 {
+        for symetric in unused_words.into_iter().step_by(ABC_LEN + 1) {
+            if symetric > 0 {
                 return palindrome_len + 2;
             }
         }
