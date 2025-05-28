@@ -1,4 +1,4 @@
-// Last updated: 28.05.2025, 15:26:53
+// Last updated: 28.05.2025, 15:42:16
 #[inline(always)]
 fn edges2connections(edges: Vec<Vec<i32>>) -> Vec<Vec<usize>> {
     let mut connections = vec![vec![]; edges.len() + 1];
@@ -33,16 +33,14 @@ fn calculate_target_nodes(max_k: usize, connections: &[Vec<usize>]) -> Vec<i32> 
     let mut cur_deepness_level = vec![vec![0; connections.len() + 1]; connections.len()];
     for _ in 1..max_k {
         let mut complete_count = 0;
-        for (node_index, branches) in cur_deepness_level.iter_mut().enumerate() {
+        for (node_index, (branches, neighbors)) in cur_deepness_level.iter_mut().zip(connections.iter()).enumerate() {
             let mut sum = 1;    // count self node
-            for (branch, prev_branch_node_deepness) in branches.iter_mut().zip(prev_deepness_level.iter()) {
+            for &neighbor_index in neighbors.iter() {
+                let branch = &mut branches[neighbor_index];
+                let prev_branch_node_deepness = &prev_deepness_level[neighbor_index];
                 let exclude = prev_branch_node_deepness[node_index];
-                if exclude == 0 {
-                    continue;
-                }
                 *branch = *prev_branch_node_deepness.last().unwrap() - exclude;
                 sum += *branch;
-
             }
             *branches.last_mut().unwrap() = sum;
             if sum == prev_deepness_level.len() as i32 {
