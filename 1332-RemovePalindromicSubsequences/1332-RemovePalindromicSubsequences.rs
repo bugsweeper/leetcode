@@ -1,19 +1,9 @@
-// Last updated: 30.05.2025, 13:49:28
-fn is_palindrome(bytes: &[u8]) -> bool {
-    for (&left, &right) in bytes.iter().zip(bytes.iter().rev()).take(bytes.len() / 2) {
-        if left != right {
-            return false;
-        }
-    }
-    true
-}
-
+// Last updated: 30.05.2025, 14:18:24
+const SOLDIER: i32 = 1;
 impl Solution {
-    pub fn remove_palindrome_sub(s: String) -> i32 {
-        if is_palindrome(s.as_bytes()) {
-            1
-        } else {
-            2
-        }
+    pub fn k_weakest_rows(mat: Vec<Vec<i32>>, k: i32) -> Vec<i32> {
+        let mut mat = mat.into_iter().enumerate().map(|(index, row)| (row.partition_point(|&human| human == SOLDIER), index as i32, row)).collect::<Vec<_>>();
+        mat.sort_by_key(|(soldiers, ..)| *soldiers);
+        mat.into_iter().take(k as usize).map(|(_, index, _)| index).collect::<Vec<_>>()
     }
 }
