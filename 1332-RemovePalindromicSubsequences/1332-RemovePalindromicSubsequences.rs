@@ -1,26 +1,15 @@
-// Last updated: 30.05.2025, 16:29:13
-const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
+// Last updated: 30.05.2025, 16:35:42
+use std::iter::repeat_n;
 
 impl Solution {
-    pub fn sort_string(s: String) -> String {
-        let mut count = [0; ABC_LEN];
-        for &byte in s.as_bytes() {
-            count[(byte - b'a') as usize] += 1;
-        }
-        let mut result = String::with_capacity(s.len());
-        while result.len() < s.len() {
-            for (index, count) in count.iter_mut().enumerate() {
-                if *count > 0 {
-                    result.push((index as u8 + b'a') as char);
-                    *count -= 1;
-                }
-            }
-            for (index, count) in count.iter_mut().enumerate().rev() {
-                if *count > 0 {
-                    result.push((index as u8 + b'a') as char);
-                    *count -= 1;
-                }
-            }
+    pub fn generate_the_string(n: i32) -> String {
+        let n = n as usize;
+        let mut result = String::with_capacity(n);
+        if n & 1 == 0 {
+            result.extend(std::iter::repeat_n('a', n - 1));
+            result.push('b');
+        } else {
+            result.extend(std::iter::repeat_n('a', n));
         }
         result
     }
