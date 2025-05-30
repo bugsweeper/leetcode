@@ -1,4 +1,4 @@
-// Last updated: 30.05.2025, 16:35:42
+// Last updated: 30.05.2025, 16:36:15
 use std::iter::repeat_n;
 
 impl Solution {
@@ -6,10 +6,10 @@ impl Solution {
         let n = n as usize;
         let mut result = String::with_capacity(n);
         if n & 1 == 0 {
-            result.extend(std::iter::repeat_n('a', n - 1));
+            result.extend(repeat_n('a', n - 1));
             result.push('b');
         } else {
-            result.extend(std::iter::repeat_n('a', n));
+            result.extend(repeat_n('a', n));
         }
         result
     }
