@@ -1,3 +1,4 @@
+// Last updated: 31.05.2025, 21:38:57
 fn get_board_cell(index: usize, board: &[Vec<i32>]) -> i32 {
     let size = board.len();
     let rev_row = index / size;
