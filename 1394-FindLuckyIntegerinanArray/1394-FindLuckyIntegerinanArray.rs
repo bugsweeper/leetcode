@@ -1,18 +1,10 @@
-// Last updated: 02.06.2025, 13:20:19
+// Last updated: 02.06.2025, 13:28:01
 impl Solution {
-    pub fn min_subsequence(nums: Vec<i32>) -> Vec<i32> {
-        let mut nums = nums;
-        nums.sort_unstable();
-        let goal_sum = nums.iter().sum::<i32>() / 2;
-        let mut sum = 0;
-        let mut subsequence = Vec::with_capacity(nums.len() / 2 + 1);
-        for num in nums.into_iter().rev() {
-            subsequence.push(num);
+    pub fn min_start_value(nums: Vec<i32>) -> i32 {
+        let min_sum = nums.into_iter().fold((0, 0), |(min_sum, mut sum), num| {
             sum += num;
-            if sum > goal_sum {
-                break;
-            }
-        }
-        subsequence
+            (min_sum.min(sum), sum)
+        }).0;
+        0.max(-min_sum) + 1
     }
 }
