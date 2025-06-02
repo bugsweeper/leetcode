@@ -1,17 +1,18 @@
-// Last updated: 02.06.2025, 12:43:40
+// Last updated: 02.06.2025, 13:20:19
 impl Solution {
-    pub fn find_lucky(arr: Vec<i32>) -> i32 {
-        let mut freq = vec![0; arr.len() + 1];
-        for num in arr {
-            if let Some(freq) = freq.get_mut(num as usize) {
-                *freq += 1;
+    pub fn min_subsequence(nums: Vec<i32>) -> Vec<i32> {
+        let mut nums = nums;
+        nums.sort_unstable();
+        let goal_sum = nums.iter().sum::<i32>() / 2;
+        let mut sum = 0;
+        let mut subsequence = Vec::with_capacity(nums.len() / 2 + 1);
+        for num in nums.into_iter().rev() {
+            subsequence.push(num);
+            sum += num;
+            if sum > goal_sum {
+                break;
             }
         }
-        for (index, freq) in freq.into_iter().enumerate().skip(1).rev() {
-            if index as i32 == freq {
-                return freq;
-            }
-        }
-        -1
+        subsequence
     }
 }
