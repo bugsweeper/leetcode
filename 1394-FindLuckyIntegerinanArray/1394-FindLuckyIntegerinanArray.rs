@@ -1,8 +1,18 @@
-// Last updated: 02.06.2025, 16:45:21
+// Last updated: 02.06.2025, 16:55:32
+use std::collections::HashSet;
+
 impl Solution {
-    pub fn kids_with_candies(candies: Vec<i32>, extra_candies: i32) -> Vec<bool> {
-        let max_candies = *candies.iter().max().unwrap();
-        let min_to_have = max_candies - extra_candies;
-        candies.into_iter().map(|candies| candies >= min_to_have).collect()
+    pub fn dest_city(paths: Vec<Vec<String>>) -> String {
+        let mut cities = HashSet::with_capacity(paths.len());
+        for path in &paths {
+            cities.insert(path[1].as_str());
+        }
+        for path in &paths {
+            cities.remove(path[0].as_str());
+        }
+        for city in cities {
+            return city.to_owned();
+        }
+        String::new()
     }
 }
