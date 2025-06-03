@@ -1,20 +1,12 @@
-// Last updated: 03.06.2025, 12:31:02
-const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
-
+// Last updated: 03.06.2025, 12:33:07
 impl Solution {
-    pub fn max_power(s: String) -> i32 {
-        let mut prev_byte = b' ';
+    pub fn busy_student(start_time: Vec<i32>, end_time: Vec<i32>, query_time: i32) -> i32 {
         let mut count = 0;
-        let mut max_count = 0;
-        for &byte in s.as_bytes() {
-            if byte == prev_byte {
+        for (start_time, end_time) in start_time.into_iter().zip(end_time) {
+            if start_time <= query_time && query_time <= end_time {
                 count += 1;
-            } else {
-                max_count = max_count.max(count);
-                count = 1;
             }
-            prev_byte = byte;
         }
-        max_count.max(count)
+        count
     }
 }
