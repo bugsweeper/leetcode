@@ -1,23 +1,9 @@
-// Last updated: 03.06.2025, 13:47:59
-use std::collections::HashSet;
+// Last updated: 03.06.2025, 14:03:33
+const MONTH: [&str; 12] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 impl Solution {
-    pub fn is_path_crossing(path: String) -> bool {
-        let mut point_set = HashSet::with_capacity(path.len());
-        let (mut x, mut y) = (0, 0);
-        point_set.insert((x, y));
-        for &direction in path.as_bytes() {
-            match direction {
-                b'N' => y += 1,
-                b'S' => y -= 1,
-                b'E' => x += 1,
-                b'W' => x -= 1,
-                _ => unimplemented!(),
-            }
-            if !point_set.insert((x, y)) {
-                return true;
-            }
-        }
-        false
+    pub fn reformat_date(date: String) -> String {
+        let day_len = date.len() - 11;
+        format!("{}-{:02}-{:0>2}", &date[day_len + 7..], MONTH.into_iter().position(|month| month == &date[day_len + 3..day_len + 6]).unwrap() + 1, &date[..day_len])
     }
 }
