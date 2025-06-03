@@ -1,12 +1,17 @@
-// Last updated: 03.06.2025, 12:33:07
+// Last updated: 03.06.2025, 12:36:15
 impl Solution {
-    pub fn busy_student(start_time: Vec<i32>, end_time: Vec<i32>, query_time: i32) -> i32 {
-        let mut count = 0;
-        for (start_time, end_time) in start_time.into_iter().zip(end_time) {
-            if start_time <= query_time && query_time <= end_time {
-                count += 1;
-            }
+    pub fn can_be_equal(target: Vec<i32>, arr: Vec<i32>) -> bool {
+        let mut count = [0; 1001];
+        for num in arr {
+            count[num as usize] += 1;
         }
-        count
+        for num in target {
+            let count = count.get_mut(num as usize).unwrap();
+            if *count == 0 {
+                return false;
+            }
+            *count -= 1;
+        }
+        true
     }
 }
