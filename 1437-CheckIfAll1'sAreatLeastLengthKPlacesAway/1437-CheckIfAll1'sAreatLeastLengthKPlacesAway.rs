@@ -1,20 +1,24 @@
-// Last updated: 03.06.2025, 15:11:04
-const upper2lower: u8 = b'a' - b'A';
-
+// Last updated: 03.06.2025, 16:07:26
 impl Solution {
-    pub fn make_good(s: String) -> String {
-        let mut stack = Vec::with_capacity(s.len());
-        for &byte in s.as_bytes() {
-            if let Some(&prev_byte) = stack.last() {
-                if prev_byte == byte + upper2lower || prev_byte + upper2lower == byte {
-                    stack.pop();
-                } else {
-                    stack.push(byte);
-                }
-            } else {
-                stack.push(byte);
-            }
+    pub fn thousand_separator(n: i32) -> String {
+        if n == 0 {
+            return "0".into();
         }
-        String::from_utf8(stack).unwrap()
+        let digits = n.ilog10() as usize + 1;
+        let not_separated = n.to_string();
+        let mut separated = String::with_capacity(digits + digits / 3);
+        let mut shift = digits % 3;
+        let mut remaining = &not_separated[..];
+        if shift == 0 {
+            shift = 3;
+        }
+        separated.push_str(&remaining[..shift]);
+        remaining = &remaining[shift..];
+        while !remaining.is_empty() {
+            separated.push('.');
+            separated.push_str(&remaining[..3]);
+            remaining = &remaining[3..];
+        }
+        separated
     }
 }
