@@ -1,9 +1,10 @@
-// Last updated: 03.06.2025, 14:03:33
-const MONTH: [&str; 12] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
+// Last updated: 03.06.2025, 14:09:09
 impl Solution {
-    pub fn reformat_date(date: String) -> String {
-        let day_len = date.len() - 11;
-        format!("{}-{:02}-{:0>2}", &date[day_len + 7..], MONTH.into_iter().position(|month| month == &date[day_len + 3..day_len + 6]).unwrap() + 1, &date[..day_len])
+    pub fn num_identical_pairs(nums: Vec<i32>) -> i32 {
+        let mut count = [0; 101];
+        for num in nums {
+            count[num as usize] += 1;
+        }
+        count.into_iter().filter_map(|count| if count > 1 { Some(count * (count - 1) / 2) } else { None }).sum()
     }
 }
