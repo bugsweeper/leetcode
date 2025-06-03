@@ -1,18 +1,17 @@
-// Last updated: 02.06.2025, 16:55:32
-use std::collections::HashSet;
-
+// Last updated: 03.06.2025, 12:11:05
 impl Solution {
-    pub fn dest_city(paths: Vec<Vec<String>>) -> String {
-        let mut cities = HashSet::with_capacity(paths.len());
-        for path in &paths {
-            cities.insert(path[1].as_str());
+    pub fn k_length_apart(nums: Vec<i32>, k: i32) -> bool {
+        let mut distance = k;
+        for num in nums {
+            if num == 0 {
+                distance += 1;
+            } else {
+                if distance < k {
+                    return false;
+                }
+                distance = 0;
+            }
         }
-        for path in &paths {
-            cities.remove(path[0].as_str());
-        }
-        for city in cities {
-            return city.to_owned();
-        }
-        String::new()
+        true
     }
 }
