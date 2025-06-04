@@ -1,24 +1,12 @@
-// Last updated: 03.06.2025, 16:07:26
+// Last updated: 04.06.2025, 12:20:42
 impl Solution {
-    pub fn thousand_separator(n: i32) -> String {
-        if n == 0 {
-            return "0".into();
+    pub fn most_visited(n: i32, rounds: Vec<i32>) -> Vec<i32> {
+        let first = *rounds.first().unwrap();
+        let last = *rounds.last().unwrap();
+        if last >= first {
+            (first..=last).collect::<Vec<_>>()
+        } else {
+            (1..=last).chain(first..=n).collect::<Vec<_>>()
         }
-        let digits = n.ilog10() as usize + 1;
-        let not_separated = n.to_string();
-        let mut separated = String::with_capacity(digits + digits / 3);
-        let mut shift = digits % 3;
-        let mut remaining = &not_separated[..];
-        if shift == 0 {
-            shift = 3;
-        }
-        separated.push_str(&remaining[..shift]);
-        remaining = &remaining[shift..];
-        while !remaining.is_empty() {
-            separated.push('.');
-            separated.push_str(&remaining[..3]);
-            remaining = &remaining[3..];
-        }
-        separated
     }
 }
