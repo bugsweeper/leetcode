@@ -1,27 +1,33 @@
-// Last updated: 04.06.2025, 12:59:14
+// Last updated: 04.06.2025, 13:16:27
 impl Solution {
-    pub fn contains_pattern(arr: Vec<i32>, m: i32, k: i32) -> bool {
-        let m = m as usize;
-        let k = k as usize;
-        for shift in 0..m {
-            if arr.len() < shift + m * k {
-                break;
+    pub fn modify_string(s: String) -> String {
+        let mut result = String::with_capacity(s.len());
+        let mut c1 = b' ';
+        for slice in s.as_bytes().windows(2) {
+            let (mut c2, c3) = (slice[0], slice[1]);
+            if c2 != b'?' {
+                result.push(c2 as char);
+                c1 = c2;
+                continue;
             }
-            let mut iter = arr[shift..].chunks_exact(m);
-            let mut prev_slice = iter.next().unwrap();
-            let mut count = 1;
-            for slice in iter {
-                if slice == prev_slice {
-                    count += 1;
-                    if count == k {
-                        return true;
-                    }
-                } else {
-                    prev_slice = slice;
-                    count = 1;
-                }
-            }
+            c2 = match (c1, c3) {
+                (b'a', b'b') | (b'b', b'a') => b'c',
+                (b'a', _) | (_, b'a') => b'b',
+                _ => b'a',
+            };
+            result.push(c2 as char);
+            c1 = c2;
         }
-        false
+        let last = *s.as_bytes().last().unwrap();
+        result.push(if last == b'?' {
+            if c1 == b'a' {
+                'b'
+            } else {
+                'a'
+            }
+        } else {
+            last as char
+        });
+        result
     }
 }
