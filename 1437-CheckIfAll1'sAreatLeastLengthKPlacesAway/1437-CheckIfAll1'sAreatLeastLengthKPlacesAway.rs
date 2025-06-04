@@ -1,33 +1,54 @@
-// Last updated: 04.06.2025, 13:16:27
+// Last updated: 04.06.2025, 14:05:18
+#[derive(Copy, Clone, PartialEq)]
+enum State {
+    Unknown,
+    Special,
+    NotSpecial,
+}
+
 impl Solution {
-    pub fn modify_string(s: String) -> String {
-        let mut result = String::with_capacity(s.len());
-        let mut c1 = b' ';
-        for slice in s.as_bytes().windows(2) {
-            let (mut c2, c3) = (slice[0], slice[1]);
-            if c2 != b'?' {
-                result.push(c2 as char);
-                c1 = c2;
-                continue;
+    pub fn num_special(mat: Vec<Vec<i32>>) -> i32 {
+        let n = mat[0].len();
+        let mut state = vec![State::Unknown; n];
+        let mut maybe_special_count = n;
+        for row in mat {
+            let mut ones_count = 0;
+            let mut special_position = usize::MAX;
+            for (index, (state, cell)) in state.iter_mut().zip(row).enumerate() {
+                if cell == 0 {
+                    continue;
+                }
+                match *state {
+                    State::Unknown => {
+                        if ones_count == 0 {
+                            special_position = index;
+                            *state = State::Special;
+                        } else {
+                            *state = State::NotSpecial;
+                            maybe_special_count -= 1;
+                            if maybe_special_count == 0 {
+                                return 0;
+                            }
+                        }
+                    }
+                    State::Special => {
+                        *state = State::NotSpecial;
+                        maybe_special_count -= 1;
+                        if maybe_special_count == 0 {
+                            return 0;
+                        }
+                    }
+                    _ => {}
+                }
+                ones_count += 1;
             }
-            c2 = match (c1, c3) {
-                (b'a', b'b') | (b'b', b'a') => b'c',
-                (b'a', _) | (_, b'a') => b'b',
-                _ => b'a',
-            };
-            result.push(c2 as char);
-            c1 = c2;
+            if special_position != usize::MAX && ones_count > 1 {
+                state[special_position] = State::NotSpecial;
+            }
         }
-        let last = *s.as_bytes().last().unwrap();
-        result.push(if last == b'?' {
-            if c1 == b'a' {
-                'b'
-            } else {
-                'a'
-            }
-        } else {
-            last as char
-        });
-        result
+        state
+            .into_iter()
+            .filter(|&state| state == State::Special)
+            .count() as i32
     }
 }
