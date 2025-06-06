@@ -1,15 +1,33 @@
-// Last updated: 06.06.2025, 15:17:47
-impl Solution {
-    pub fn min_operations(logs: Vec<String>) -> i32 {
-        let mut level = 0_usize;
-        for log in logs {
-            let bytes = log.as_bytes();
-            match (bytes[0], bytes[1]) {
-                (b'.', b'.') => level = level.saturating_sub(1),
-                (b'.', _) => {},
-                _ => level += 1,
-            }
+// Last updated: 06.06.2025, 15:28:26
+struct ParkingSystem {
+    slots: [i32; 4]
+}
+
+
+/** 
+ * `&self` means the method takes an immutable reference.
+ * If you need a mutable reference, change it to `&mut self` instead.
+ */
+impl ParkingSystem {
+
+    fn new(big: i32, medium: i32, small: i32) -> Self {
+        Self{
+            slots: [0, big, medium, small]
         }
-        level as i32
+    }
+    
+    fn add_car(&mut self, car_type: i32) -> bool {
+        let slots = &mut self.slots[car_type as usize];
+        if *slots == 0 {
+            return false;
+        }
+        *slots -= 1;
+        true
     }
 }
+
+/**
+ * Your ParkingSystem object will be instantiated and called as such:
+ * let obj = ParkingSystem::new(big, medium, small);
+ * let ret_1: bool = obj.add_car(carType);
+ */
