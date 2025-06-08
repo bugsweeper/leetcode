@@ -1,4 +1,4 @@
-// Last updated: 08.06.2025, 12:35:21
+// Last updated: 08.06.2025, 12:36:05
 fn push_starting_from(number: i32, last: i32, result: &mut Vec<i32>) {
     result.push(number);
     let next_number = number * 10;
