@@ -1,4 +1,4 @@
-// Last updated: 11.06.2025, 15:03:42
+// Last updated: 11.06.2025, 15:07:43
 // from '0' to '4'
 const DIGITS: usize = 5;
 
@@ -20,8 +20,9 @@ impl Solution {
                 prefix_sum.push(count);
             }
         }
-        // greedy moment: positive answer could be only if even number is at least 2 and odd number is at least 3
-        // we will try pairs in descending order of possible max difference
+        // greedy moment: valid answer could be only if even number is at least 2 and odd number is at least 1
+        // by sorting, we are trying pairs in descending order of possible max difference
+        // this is why we can skip more pairs which can't improve previous best difference
         let mut pairs = Vec::with_capacity(DIGITS * (DIGITS - 1));
         for (i, &count_a) in current_count.iter().enumerate() {
             for (j, &count_b) in current_count.iter().enumerate() {
