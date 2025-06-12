@@ -1,17 +1,21 @@
-// Last updated: 12.06.2025, 16:15:41
+// Last updated: 12.06.2025, 16:33:07
 impl Solution {
-    pub fn max_width_of_vertical_area(points: Vec<Vec<i32>>) -> i32 {
-        let mut abscissa = points.into_iter().map(|point| point[0]).collect::<Vec<_>>();
-        abscissa.sort_unstable();
-        let mut iter = abscissa.into_iter();
-        let mut prev_x = iter.next().unwrap();
-        let mut max_width = 0;
-        for x in iter {
-            if prev_x != x {
-                max_width = max_width.max(x - prev_x);
-                prev_x = x;
+    pub fn can_form_array(arr: Vec<i32>, pieces: Vec<Vec<i32>>) -> bool {
+        let mut freq = [usize::MAX; 101];
+        for (index, num) in arr.into_iter().enumerate() {
+            freq[num as usize] = index;
+        }
+        for piece in pieces {
+            let first_index = freq[piece[0] as usize];
+            if first_index == usize::MAX {
+                return false;
+            }
+            for (index, num) in piece.into_iter().enumerate().skip(1) {
+                if first_index + index != freq[num as usize] {
+                    return false;
+                }
             }
         }
-        max_width
+        true
     }
 }
