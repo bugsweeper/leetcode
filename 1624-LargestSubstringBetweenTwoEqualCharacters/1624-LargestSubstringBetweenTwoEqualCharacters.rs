@@ -1,23 +1,16 @@
-// Last updated: 12.06.2025, 15:51:28
-use std::cmp::Ordering;
+// Last updated: 12.06.2025, 16:05:31
+const LIMIT: i32 = 100;
 
 impl Solution {
-    pub fn slowest_key(release_times: Vec<i32>, keys_pressed: String) -> char {
-        let mut prev_time = 0;
-        let mut max_delta = 0;
-        let mut slowest_key = b'a';
-        for (time, key) in release_times.into_iter().zip(keys_pressed.bytes()) {
-            let delta = time - prev_time;
-            prev_time = time;
-            match delta.cmp(&max_delta) {
-                Ordering::Greater => {
-                    max_delta = delta;
-                    slowest_key = key;
-                }
-                Ordering::Equal => slowest_key = slowest_key.max(key),
-                _ => {}
-            }
+    pub fn frequency_sort(nums: Vec<i32>) -> Vec<i32> {
+        let mut freq = [0; ((LIMIT as usize) << 1) + 1];
+        for &num in &nums {
+            freq[(num + LIMIT) as usize] += 1;
         }
-        slowest_key as char
+        let mut nums = nums;
+        nums.sort_unstable_by_key(|num| {
+            (freq[(num + LIMIT) as usize], -num)
+        });
+        nums
     }
 }
