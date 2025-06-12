@@ -1,16 +1,17 @@
-// Last updated: 12.06.2025, 16:05:31
-const LIMIT: i32 = 100;
-
+// Last updated: 12.06.2025, 16:15:41
 impl Solution {
-    pub fn frequency_sort(nums: Vec<i32>) -> Vec<i32> {
-        let mut freq = [0; ((LIMIT as usize) << 1) + 1];
-        for &num in &nums {
-            freq[(num + LIMIT) as usize] += 1;
+    pub fn max_width_of_vertical_area(points: Vec<Vec<i32>>) -> i32 {
+        let mut abscissa = points.into_iter().map(|point| point[0]).collect::<Vec<_>>();
+        abscissa.sort_unstable();
+        let mut iter = abscissa.into_iter();
+        let mut prev_x = iter.next().unwrap();
+        let mut max_width = 0;
+        for x in iter {
+            if prev_x != x {
+                max_width = max_width.max(x - prev_x);
+                prev_x = x;
+            }
         }
-        let mut nums = nums;
-        nums.sort_unstable_by_key(|num| {
-            (freq[(num + LIMIT) as usize], -num)
-        });
-        nums
+        max_width
     }
 }
