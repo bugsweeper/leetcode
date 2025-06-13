@@ -1,4 +1,4 @@
-// Last updated: 13.06.2025, 18:19:26
+// Last updated: 13.06.2025, 18:20:46
 fn answer_is_big_enough(diffs: &[i32], answer: i32, mut pairs: i32) -> bool {
     let mut index = 0;
     while index < diffs.len() {
@@ -33,9 +33,7 @@ impl Solution {
         }
         let mut diffs = unsorted_diffs.clone();
         diffs.sort_unstable();
-        let mut unique_diffs = diffs.clone();
-        unique_diffs.dedup();
-        let index = unique_diffs.partition_point(|&diff| !answer_is_big_enough(&unsorted_diffs, diff, p));
-        unique_diffs[index]
+        let index = diffs.partition_point(|&diff| !answer_is_big_enough(&unsorted_diffs, diff, p));
+        diffs[index]
     }
 }
