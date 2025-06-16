@@ -1,26 +1,13 @@
-// Last updated: 16.06.2025, 12:08:34
+// Last updated: 16.06.2025, 12:49:36
 impl Solution {
-    pub fn interpret(command: String) -> String {
-        let mut source = command.as_bytes();
-        let mut result = String::with_capacity(command.len());
-        while !source.is_empty() {
-            if source[0] == b'G' {
-                source = &source[1..];
-                result.push('G');
-                continue;
-            }
-            match source[1] {
-                b')' => {
-                    source = &source[2..];
-                    result.push('o');
-                }
-                b'a' => {
-                    source = &source[4..];
-                    result.push_str("al");
-                }
-                _ => {}
-            }
+    pub fn count_consistent_strings(allowed: String, words: Vec<String>) -> i32 {
+        let mut is_allowed = vec![false; b'z' as usize + 1];
+        for byte in allowed.bytes() {
+            is_allowed[byte as usize] = true;
         }
-        result
+        words
+            .into_iter()
+            .filter(|word| word.bytes().all(|byte| is_allowed[byte as usize]))
+            .count() as i32
     }
 }
