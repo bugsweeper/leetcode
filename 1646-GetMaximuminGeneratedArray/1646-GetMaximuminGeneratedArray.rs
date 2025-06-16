@@ -1,24 +1,29 @@
-// Last updated: 16.06.2025, 13:15:48
+// Last updated: 16.06.2025, 13:37:06
 impl Solution {
-    pub fn reformat_number(number: String) -> String {
-        let mut digits = number
-            .bytes()
-            .filter(|byte| byte.is_ascii_digit())
-            .count();
-        let mut iter = number
-            .bytes()
-            .filter(|byte| byte.is_ascii_digit());
-        let mut group_size = 0;
-        let mut result = String::with_capacity(number.len() * 3 / 2);
-        while let Some(byte) = iter.next() {
-            group_size += 1;
-            digits -= 1;
-            result.push(byte as char);
-            if group_size == 3 && digits != 0 || group_size == 2 && digits == 2 {
-                result.push('-');
-                group_size = 0;
+    pub fn count_students(students: Vec<i32>, sandwiches: Vec<i32>) -> i32 {
+        let (mut circular, mut square) =
+            students
+                .into_iter()
+                .fold((0, 0), |(circular, square), student| {
+                    if student == 0 {
+                        (circular + 1, square)
+                    } else {
+                        (circular, square + 1)
+                    }
+                });
+        for sandwich in sandwiches {
+            if sandwich == 0 {
+                if circular == 0 {
+                    break;
+                }
+                circular -= 1;
+            } else {
+                if square == 0 {
+                    break;
+                }
+                square -= 1;
             }
         }
-        result
+        circular + square
     }
 }
