@@ -1,13 +1,13 @@
-// Last updated: 16.06.2025, 12:49:36
+// Last updated: 16.06.2025, 12:57:09
 impl Solution {
-    pub fn count_consistent_strings(allowed: String, words: Vec<String>) -> i32 {
-        let mut is_allowed = vec![false; b'z' as usize + 1];
-        for byte in allowed.bytes() {
-            is_allowed[byte as usize] = true;
+    pub fn number_of_matches(n: i32) -> i32 {
+        let mut n = n;
+        let mut total_matches = 0;
+        while n > 1 {
+            let matches = n >> 1;
+            total_matches += matches;
+            n = matches + (n & 1);
         }
-        words
-            .into_iter()
-            .filter(|word| word.bytes().all(|byte| is_allowed[byte as usize]))
-            .count() as i32
+        total_matches
     }
 }
