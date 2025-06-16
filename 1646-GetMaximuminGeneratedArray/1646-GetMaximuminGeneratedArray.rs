@@ -1,13 +1,24 @@
-// Last updated: 16.06.2025, 12:57:09
+// Last updated: 16.06.2025, 13:15:48
 impl Solution {
-    pub fn number_of_matches(n: i32) -> i32 {
-        let mut n = n;
-        let mut total_matches = 0;
-        while n > 1 {
-            let matches = n >> 1;
-            total_matches += matches;
-            n = matches + (n & 1);
+    pub fn reformat_number(number: String) -> String {
+        let mut digits = number
+            .bytes()
+            .filter(|byte| byte.is_ascii_digit())
+            .count();
+        let mut iter = number
+            .bytes()
+            .filter(|byte| byte.is_ascii_digit());
+        let mut group_size = 0;
+        let mut result = String::with_capacity(number.len() * 3 / 2);
+        while let Some(byte) = iter.next() {
+            group_size += 1;
+            digits -= 1;
+            result.push(byte as char);
+            if group_size == 3 && digits != 0 || group_size == 2 && digits == 2 {
+                result.push('-');
+                group_size = 0;
+            }
         }
-        total_matches
+        result
     }
 }
