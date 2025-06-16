@@ -1,29 +1,27 @@
-// Last updated: 16.06.2025, 13:37:06
+// Last updated: 16.06.2025, 14:08:36
+static IS_VOWEL: [bool; 123] = [
+    false, false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false,
+    true, false, false, false, true, false, false, false, true, false, false, false, false, false,
+    true, false, false, false, false, false, true, false, false, false, false, false, false, false,
+    false, false, false, false, true, false, false, false, true, false, false, false, true, false,
+    false, false, false, false, true, false, false, false, false, false, true, false, false, false,
+    false, false,
+];
+
 impl Solution {
-    pub fn count_students(students: Vec<i32>, sandwiches: Vec<i32>) -> i32 {
-        let (mut circular, mut square) =
-            students
-                .into_iter()
-                .fold((0, 0), |(circular, square), student| {
-                    if student == 0 {
-                        (circular + 1, square)
-                    } else {
-                        (circular, square + 1)
-                    }
-                });
-        for sandwich in sandwiches {
-            if sandwich == 0 {
-                if circular == 0 {
-                    break;
-                }
-                circular -= 1;
-            } else {
-                if square == 0 {
-                    break;
-                }
-                square -= 1;
-            }
-        }
-        circular + square
+    pub fn halves_are_alike(s: String) -> bool {
+        let half = s.len() / 2;
+        s.bytes()
+            .take(half)
+            .filter(|byte| IS_VOWEL[*byte as usize])
+            .count()
+            == s.bytes()
+                .skip(half)
+                .filter(|byte| IS_VOWEL[*byte as usize])
+                .count()
     }
 }
