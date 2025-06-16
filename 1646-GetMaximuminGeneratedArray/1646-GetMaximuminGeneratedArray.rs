@@ -1,21 +1,12 @@
-// Last updated: 16.06.2025, 15:24:42
-use std::cmp::Ordering;
-
+// Last updated: 16.06.2025, 15:28:32
 impl Solution {
-    pub fn count_good_rectangles(rectangles: Vec<Vec<i32>>) -> i32 {
-        let mut max_side = 0;
-        let mut count = 0;
-        for rectangle in rectangles {
-            let side = rectangle[0].min(rectangle[1]);
-            match side.cmp(&max_side) {
-                Ordering::Greater => {
-                    max_side = side;
-                    count = 1;
-                }
-                Ordering::Equal => count += 1,
-                _ => {}
-            }
+    pub fn largest_altitude(gain: Vec<i32>) -> i32 {
+        let mut altitude = 0;
+        let mut max_altitude = 0;
+        for gain in gain {
+            altitude += gain;
+            max_altitude = max_altitude.max(altitude);
         }
-        count
+        max_altitude
     }
 }
