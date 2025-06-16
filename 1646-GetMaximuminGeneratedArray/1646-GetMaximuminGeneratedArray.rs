@@ -1,13 +1,21 @@
-// Last updated: 16.06.2025, 15:07:08
+// Last updated: 16.06.2025, 15:24:42
+use std::cmp::Ordering;
+
 impl Solution {
-    pub fn decode(encoded: Vec<i32>, first: i32) -> Vec<i32> {
-        let mut prev_num = first;
-        let mut decoded = Vec::with_capacity(encoded.len() + 1);
-        decoded.push(prev_num);
-        for num in encoded {
-            prev_num ^= num;
-            decoded.push(prev_num);
+    pub fn count_good_rectangles(rectangles: Vec<Vec<i32>>) -> i32 {
+        let mut max_side = 0;
+        let mut count = 0;
+        for rectangle in rectangles {
+            let side = rectangle[0].min(rectangle[1]);
+            match side.cmp(&max_side) {
+                Ordering::Greater => {
+                    max_side = side;
+                    count = 1;
+                }
+                Ordering::Equal => count += 1,
+                _ => {}
+            }
         }
-        decoded
+        count
     }
 }
