@@ -1,25 +1,21 @@
-// Last updated: 19.06.2025, 14:47:33
+// Last updated: 19.06.2025, 15:14:32
+use std::collections::HashSet;
+
 impl Solution {
-    pub fn second_highest(s: String) -> i32 {
-        let mut digits = [false; 10];
-        for byte in s.bytes() {
-            if byte.is_ascii_digit() {
-                let digit = (byte - b'0') as usize;
-                match digit {
-                    8 => if digits[9] { return 8 },
-                    9 => if digits[8] { return 8 },
-                    _ => {}
+    pub fn num_different_integers(word: String) -> i32 {
+        word.split(|symbol: char| !symbol.is_ascii_digit())
+            .filter_map(|slice| {
+                if slice.is_empty() {
+                    None
+                } else {
+                    if let Some(index) = slice.find(|symbol| symbol != '0') {
+                        Some(&slice[index..])
+                    } else {
+                        Some("0")
+                    }
                 }
-                digits[digit] = true;
-            }
-        }
-        digits
-            .into_iter()
-            .enumerate()
-            .rev()
-            .filter_map(|(index, seen)| if seen { Some(index as i32) } else { None })
-            .skip(1)
-            .next()
-            .unwrap_or(-1)
+            })
+            .collect::<HashSet<_>>()
+            .len() as i32
     }
 }
