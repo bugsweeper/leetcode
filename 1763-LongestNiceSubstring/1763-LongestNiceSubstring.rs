@@ -1,12 +1,16 @@
-// Last updated: 19.06.2025, 15:49:39
+// Last updated: 19.06.2025, 15:56:41
 impl Solution {
-    pub fn sum_base(n: i32, k: i32) -> i32 {
-        let mut n = n;
-        let mut sum = 0;
-        while n > 0 {
-            sum += n % k;
-            n /= k;
+    pub fn replace_digits(s: String) -> String {
+        let mut result = String::with_capacity(s.len());
+        let mut base = b'a';
+        for (index, byte) in s.bytes().enumerate() {
+            if index & 1 == 0 {
+                result.push(byte as char);
+                base = byte;
+            } else {
+                result.push((base + (byte - b'0')) as char);
+            }
         }
-        sum
+        result
     }
 }
