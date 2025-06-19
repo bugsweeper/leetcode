@@ -1,21 +1,7 @@
-// Last updated: 19.06.2025, 15:14:32
-use std::collections::HashSet;
-
+// Last updated: 19.06.2025, 15:17:06
 impl Solution {
-    pub fn num_different_integers(word: String) -> i32 {
-        word.split(|symbol: char| !symbol.is_ascii_digit())
-            .filter_map(|slice| {
-                if slice.is_empty() {
-                    None
-                } else {
-                    if let Some(index) = slice.find(|symbol| symbol != '0') {
-                        Some(&slice[index..])
-                    } else {
-                        Some("0")
-                    }
-                }
-            })
-            .collect::<HashSet<_>>()
-            .len() as i32
+    pub fn square_is_white(coordinates: String) -> bool {
+        let bytes = coordinates.as_bytes();
+        ((bytes[0] - b'a') & 1) == ((bytes[1] - b'0') & 1)
     }
 }
