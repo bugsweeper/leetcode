@@ -1,7 +1,15 @@
-// Last updated: 19.06.2025, 15:17:06
+// Last updated: 19.06.2025, 15:40:19
 impl Solution {
-    pub fn square_is_white(coordinates: String) -> bool {
-        let bytes = coordinates.as_bytes();
-        ((bytes[0] - b'a') & 1) == ((bytes[1] - b'0') & 1)
+    pub fn truncate_sentence(s: String, k: i32) -> String {
+        if let Some(index) = s
+            .bytes()
+            .enumerate()
+            .filter_map(|(index, byte)| if byte == b' ' { Some(index) } else { None })
+            .nth(k as usize - 1)
+        {
+            s[..index].into()
+        } else {
+            s
+        }
     }
 }
