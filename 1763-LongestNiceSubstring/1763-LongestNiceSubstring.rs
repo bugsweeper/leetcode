@@ -1,16 +1,10 @@
-// Last updated: 19.06.2025, 15:43:40
+// Last updated: 19.06.2025, 15:48:15
 impl Solution {
-    pub fn min_operations(nums: Vec<i32>) -> i32 {
-        let mut operations = 0;
-        let mut expected = 1;
-        for num in nums {
-            if num < expected {
-                operations += expected - num;
-                expected += 1;
-            } else {
-                expected = num + 1;
-            }
+    pub fn check_if_pangram(sentence: String) -> bool {
+        let mut seen = [false; b'z' as usize + 1];
+        for byte in sentence.bytes() {
+            seen[byte as usize] = true;
         }
-        operations
+        seen[b'a' as usize..].into_iter().all(|&seen| seen)
     }
 }
