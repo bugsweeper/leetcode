@@ -1,18 +1,14 @@
-// Last updated: 23.06.2025, 16:16:29
+// Last updated: 23.06.2025, 16:21:08
+fn word2number(word: String) -> i32 {
+    let mut number = 0;
+    for byte in word.bytes() {
+        number = number * 10 + (byte - b'a') as i32
+    }
+    number
+}
+
 impl Solution {
-    pub fn count_good_substrings(s: String) -> i32 {
-        if s.len() < 3 {
-            return 0;
-        }
-        let bytes = s.as_bytes();
-        let (mut prev1, mut prev2) = (bytes[0], bytes[1]);
-        let mut count = 0;
-        for byte in s.bytes().skip(2) {
-            if byte != prev1 && byte != prev2 && prev1 != prev2 {
-                count += 1;
-            }
-            (prev1, prev2) = (prev2, byte);
-        }
-        count
+    pub fn is_sum_equal(first_word: String, second_word: String, target_word: String) -> bool {
+        word2number(first_word) + word2number(second_word) == word2number(target_word)
     }
 }
