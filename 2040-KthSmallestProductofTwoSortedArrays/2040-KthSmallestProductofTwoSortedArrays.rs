@@ -1,4 +1,4 @@
-// Last updated: 25.06.2025, 17:31:25
+// Last updated: 26.06.2025, 09:18:58
 use std::cmp::Ordering;
 
 impl Solution {
@@ -53,39 +53,75 @@ impl Solution {
                         continue;
                     }
                     not_greater_count = non_positive_products;
+                    // prevent repetitive searches by caching prev search result
+                    let mut prev_pair = i32::MIN;
+                    let mut prev_pair_index = 0;
                     for &num1 in &nums1[..negatives1] {
                         // num1 is negative => pair is negative
                         let pair = (product_middle / num1 as i64) as i32;
-                        not_greater_count +=
-                            negatives2 - nums2[..negatives2].partition_point(|&num2| num2 < pair);
+                        not_greater_count += negatives2
+                            - if pair == prev_pair {
+                                prev_pair_index
+                            } else {
+                                prev_pair = pair;
+                                prev_pair_index =
+                                    nums2[..negatives2].partition_point(|&num2| num2 < pair);
+                                prev_pair_index
+                            }
                     }
                     if not_greater_count >= k {
                         continue;
                     }
+                    prev_pair = i32::MIN;
+                    prev_pair_index = 0;
                     for &num1 in &nums1[non_positives1..] {
                         // num1 is positive => pair is positive
                         let pair = (product_middle / num1 as i64) as i32;
-                        not_greater_count +=
-                            nums2[non_positives2..].partition_point(|&num2| num2 <= pair);
+                        not_greater_count += if pair == prev_pair {
+                            prev_pair_index
+                        } else {
+                            prev_pair = pair;
+                            prev_pair_index =
+                                nums2[non_positives2..].partition_point(|&num2| num2 <= pair);
+                            prev_pair_index
+                        }
                     }
                 }
                 Ordering::Less => {
+                    // prevent repetitive searches by caching prev search result
+                    let mut prev_pair = i32::MIN;
+                    let mut prev_pair_index = 0;
                     for &num1 in &nums1[..negatives1] {
                         // num1 is negative => pair is positive
                         let num1 = num1 as i64;
                         let pair = ((product_middle + num1 + 1) / num1) as i32;
                         not_greater_count += positives2
-                            - nums2[non_positives2..].partition_point(|&num2| num2 < pair);
+                            - if pair == prev_pair {
+                                prev_pair_index
+                            } else {
+                                prev_pair = pair;
+                                prev_pair_index =
+                                    nums2[non_positives2..].partition_point(|&num2| num2 < pair);
+                                prev_pair_index
+                            }
                     }
                     if not_greater_count >= k {
                         continue;
                     }
+                    prev_pair = i32::MIN;
+                    prev_pair_index = 0;
                     for &num1 in &nums1[non_positives1..] {
                         // num1 is positive => pair is negative
                         let num1 = num1 as i64;
                         let pair = ((product_middle - num1 + 1) / num1) as i32;
-                        not_greater_count +=
-                            nums2[..negatives2].partition_point(|&num2| num2 <= pair);
+                        not_greater_count += if pair == prev_pair {
+                            prev_pair_index
+                        } else {
+                            prev_pair = pair;
+                            prev_pair_index =
+                                nums2[..negatives2].partition_point(|&num2| num2 <= pair);
+                            prev_pair_index
+                        }
                     }
                 }
             }
