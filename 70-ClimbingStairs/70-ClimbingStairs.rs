@@ -1,3 +1,4 @@
+// Last updated: 27.06.2025, 11:21:53
 impl Solution {
     pub fn climb_stairs(n: i32) -> i32 {
         match n {
