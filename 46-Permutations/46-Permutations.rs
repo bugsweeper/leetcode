@@ -1,4 +1,4 @@
-// Last updated: 27.03.2025, 10:03:38
+// Last updated: 27.06.2025, 11:31:08
 fn add_sub_permutation(index: usize, mut nums: Vec<i32>, result: &mut Vec<Vec<i32>>) {
     let next_index = index + 1;
     if next_index == nums.len() - 1 {
