@@ -1,4 +1,4 @@
-// Last updated: 18.04.2025, 16:11:06
+// Last updated: 04.07.2025, 12:04:20
 impl Solution {
     pub fn longest_palindrome(s: String) -> String {
         // Manacher's algorithm
