@@ -1,17 +1,17 @@
-// Last updated: 03.06.2025, 12:11:05
+// Last updated: 05.07.2025, 12:54:46
 impl Solution {
-    pub fn k_length_apart(nums: Vec<i32>, k: i32) -> bool {
-        let mut distance = k;
-        for num in nums {
-            if num == 0 {
-                distance += 1;
-            } else {
-                if distance < k {
-                    return false;
-                }
-                distance = 0;
+    pub fn find_lucky(arr: Vec<i32>) -> i32 {
+        let mut freq = vec![0; arr.len() + 1];
+        for num in arr {
+            if let Some(freq) = freq.get_mut(num as usize) {
+                *freq += 1;
             }
         }
-        true
+        for (index, freq) in freq.into_iter().enumerate().skip(1).rev() {
+            if index as i32 == freq {
+                return freq;
+            }
+        }
+        -1
     }
 }
