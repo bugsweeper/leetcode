@@ -1,17 +1,21 @@
-// Last updated: 30.06.2025, 14:49:01
+// Last updated: 21.07.2025, 11:09:37
 impl Solution {
-    pub fn is_prefix_string(s: String, words: Vec<String>) -> bool {
-        let mut slice = s.as_str();
-        for word in words {
-            if slice.len() >= word.len() && word == slice[..word.len()] {
-                slice = &slice[word.len()..];
-                if slice.is_empty() {
-                    return true;
+    pub fn make_fancy_string(s: String) -> String {
+        let mut prev_byte = b' ';
+        let mut bytes_met = 0;
+        let mut fancy = String::with_capacity(s.len());
+        for byte in s.bytes() {
+            if prev_byte == byte {
+                if bytes_met < 2 {
+                    bytes_met += 1;
+                } else {
+                    continue;
                 }
             } else {
-                return false;
+                (prev_byte, bytes_met) = (byte, 1);
             }
+            fancy.push(byte as char);
         }
-        slice.is_empty()
+        fancy
     }
 }
