@@ -1,19 +1,11 @@
-// Last updated: 25.07.2025, 13:37:57
-use std::collections::HashSet;
-
+// Last updated: 25.07.2025, 13:40:42
 impl Solution {
-    pub fn kth_distinct(arr: Vec<String>, k: i32) -> String {
-        let mut seen = HashSet::with_capacity(arr.len());
-        let mut repeated = HashSet::with_capacity(arr.len());
-        for item in &arr {
-            if !seen.insert(item) {
-                repeated.insert(item);
+    pub fn smallest_equal(nums: Vec<i32>) -> i32 {
+        for (index, num) in nums.into_iter().enumerate() {
+            if index % 10 == num as usize {
+                return index as i32;
             }
         }
-        arr.iter()
-            .filter(|item| !repeated.contains(item))
-            .nth(k as usize - 1)
-            .cloned()
-            .unwrap_or(String::new())
+        -1
     }
 }
