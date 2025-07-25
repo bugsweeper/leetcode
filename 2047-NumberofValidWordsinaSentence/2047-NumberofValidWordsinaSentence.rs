@@ -1,23 +1,19 @@
-// Last updated: 25.07.2025, 14:48:39
-const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
-
-#[inline]
-fn frequency(word: String) -> [u8; ABC_LEN] {
-    let mut freq = [0; ABC_LEN];
-    for byte in word.bytes() {
-        freq[(byte - b'a') as usize] += 1;
-    }
-    freq
-}
-
+// Last updated: 25.07.2025, 15:11:56
 impl Solution {
-    pub fn check_almost_equivalent(word1: String, word2: String) -> bool {
-        if word1.len() <= 3 {
-            return true;
-        }
-        frequency(word1)
-            .into_iter()
-            .zip(frequency(word2))
-            .all(|(freq1, freq2)| freq1.abs_diff(freq2) <= 3)
+    pub fn time_required_to_buy(tickets: Vec<i32>, k: i32) -> i32 {
+        let k = k as usize;
+        let rounds = tickets[k];
+        let (head, tail) = tickets.split_at(k + 1);
+        let mut time = head.iter()
+            .map(|&ticket| ticket.min(rounds))
+            .sum();
+        time += match rounds {
+            1 => 0,
+            2 => tail.len() as i32,
+            _ => tail.iter()
+                .map(|&ticket| ticket.min(rounds - 1))
+                .sum(),
+        };
+        time
     }
 }
