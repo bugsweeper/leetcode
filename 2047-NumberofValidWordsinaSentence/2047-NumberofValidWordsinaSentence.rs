@@ -1,6 +1,7 @@
-// Last updated: 25.07.2025, 14:48:20
+// Last updated: 25.07.2025, 14:48:39
 const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
 
+#[inline]
 fn frequency(word: String) -> [u8; ABC_LEN] {
     let mut freq = [0; ABC_LEN];
     for byte in word.bytes() {
