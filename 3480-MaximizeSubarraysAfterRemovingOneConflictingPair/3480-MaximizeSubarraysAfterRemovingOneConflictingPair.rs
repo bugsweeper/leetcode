@@ -1,4 +1,4 @@
-// Last updated: 26.07.2025, 22:43:54
+// Last updated: 26.07.2025, 22:47:15
 use std::cmp::Ordering;
 
 #[inline]
@@ -46,7 +46,7 @@ impl Solution {
                 bonus = 0;
             }
             let next_end = pairs.last().unwrap().1;
-            // 100% valid
+            // 100% valid (calculating sum of arithmetic progression)
             subarrays += ((next_end - end) * (end - start2 + next_end - 1 - start2)) >> 1;
             if !start2_doubled {
                 // valid for most fresh started pair removal
