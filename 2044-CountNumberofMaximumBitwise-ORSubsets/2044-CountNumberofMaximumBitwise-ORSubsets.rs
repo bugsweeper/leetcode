@@ -1,4 +1,4 @@
-// Last updated: 28.07.2025, 11:44:26
+// Last updated: 28.07.2025, 11:47:43
 impl Solution {
     pub fn count_max_or_subsets(nums: Vec<i32>) -> i32 {
         if nums.len() == 1 {
