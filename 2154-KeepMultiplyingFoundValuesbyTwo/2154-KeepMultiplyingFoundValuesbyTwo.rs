@@ -1,21 +1,15 @@
-// Last updated: 01.08.2025, 11:52:38
-use std::collections::HashMap;
-
+// Last updated: 01.08.2025, 12:04:36
 impl Solution {
-    pub fn most_frequent(nums: Vec<i32>, key: i32) -> i32 {
-        let mut count = HashMap::with_capacity(nums.len() >> 1);
-        let mut prev = 0;
-        for num in nums {
-            if prev == key {
-                count.entry(num).and_modify(|count| *count += 1).or_insert(1);
-            }
-            prev = num;
-        }
-        let (mut answer, mut max_count) = (0, 0);
-        for (num, count) in count {
-            if count > max_count {
-                answer = num;
-                max_count = count;
+    pub fn cells_in_range(s: String) -> Vec<String> {
+        let s = s.as_bytes();
+        let (cs, ce, rs, re) = (s[0], s[3], s[1], s[4]);
+        let mut answer = Vec::with_capacity((ce - cs + 1) as usize * (re - rs + 1) as usize);
+        for col in s[0]..=s[3] {
+            for row in s[1]..=s[4] {
+                let mut cell = String::with_capacity(2);
+                cell.push(col as char);
+                cell.push(row as char);
+                answer.push(cell);
             }
         }
         answer
