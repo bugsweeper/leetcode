@@ -1,12 +1,13 @@
-// Last updated: 01.08.2025, 10:21:02
+// Last updated: 01.08.2025, 11:15:43
 impl Solution {
-    pub fn find_final_value(nums: Vec<i32>, original: i32) -> i32 {
-        let mut nums = nums;
-        nums.sort_unstable();
-        let mut value = original;
-        while nums.binary_search(&value).is_ok() {
-            value <<= 1;
+    pub fn minimum_sum(num: i32) -> i32 {
+        let mut digits = Vec::with_capacity(4);
+        let mut num = num;
+        while num > 0 {
+            digits.push(num % 10);
+            num /= 10;
         }
-        value
+        digits.sort_unstable();
+        (digits[0] + digits[1]) * 10 + digits[2] + digits[3]
     }
 }
