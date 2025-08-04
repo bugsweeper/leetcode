@@ -1,18 +1,39 @@
-// Last updated: 04.08.2025, 13:03:43
-#[inline]
-fn to_minutes(time: String) -> i32 {
-    time[..2].parse::<i32>().unwrap() * 60 + time[3..].parse::<i32>().unwrap()
-}
-
+// Last updated: 04.08.2025, 13:41:24
 impl Solution {
-    pub fn convert_time(current: String, correct: String) -> i32 {
-        let mut remaining = to_minutes(correct) - to_minutes(current);
-        let mut operations = remaining / 60;
-        remaining %= 60;
-        operations += remaining / 15;
-        remaining %= 15;
-        operations += remaining / 5;
-        remaining %= 5;
-        operations + remaining
+    pub fn largest_integer(num: i32) -> i32 {
+        let (mut digits, mut odds, mut evens, mut num) = (
+            Vec::with_capacity(10),
+            Vec::with_capacity(10),
+            Vec::with_capacity(10),
+            num,
+        );
+        // Decompose to digits
+        while num > 0 {
+            let digit = num % 10;
+            num /= 10;
+            digits.push(digit);
+            if digit & 1 == 1 {
+                odds.push(digit);
+            } else {
+                evens.push(digit);
+            }
+        }
+        // Sort separately digits
+        odds.sort_unstable();
+        evens.sort_unstable();
+        // Combine sorted digits by parity
+        for digit in digits.iter_mut().rev() {
+            *digit = if *digit & 1 == 1 {
+                odds.pop()
+            } else {
+                evens.pop()
+            }
+            .unwrap();
+        }
+        // Recompose
+        for digit in digits.into_iter().rev() {
+            num = num * 10 + digit;
+        }
+        num
     }
 }
