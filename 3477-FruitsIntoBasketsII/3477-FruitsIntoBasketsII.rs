@@ -1,4 +1,4 @@
-// Last updated: 05.08.2025, 13:59:49
+// Last updated: 05.08.2025, 14:03:38
 #[derive(PartialEq, Eq)]
 enum OperationState {
     ChangedMax(i32),
@@ -111,8 +111,12 @@ impl Solution {
     pub fn num_of_unplaced_fruits(fruits: Vec<i32>, baskets: Vec<i32>) -> i32 {
         let mut segment_tree = SegmentTree::new(&baskets).0;
         let mut unplaced = 0;
+        let mut min_unplaced = i32::MAX;
         for fruit in fruits {
-            if segment_tree.place(fruit) == OperationState::Unplaced {
+            if fruit >= min_unplaced {
+                unplaced += 1;
+            } else if segment_tree.place(fruit) == OperationState::Unplaced {
+                min_unplaced = fruit;
                 unplaced += 1;
             }
         }
