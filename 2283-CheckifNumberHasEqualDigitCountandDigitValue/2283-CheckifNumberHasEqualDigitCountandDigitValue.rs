@@ -1,29 +1,18 @@
-// Last updated: 11.08.2025, 13:43:09
+// Last updated: 11.08.2025, 13:51:06
 impl Solution {
-    pub fn strong_password_checker_ii(password: String) -> bool {
-        if password.len() < 8 {
-            return false;
-        }
-        let mut prev_byte = b' ';
-        let mut has_lowercase = false;
-        let mut has_uppercase = false;
-        let mut has_digit = false;
-        let mut has_special = false;
-        for byte in password.bytes() {
-            if byte == prev_byte {
-                return false;
-            }
-            if byte.is_ascii_digit() {
-                has_digit = true;
-            } else if byte.is_ascii_lowercase() {
-                has_lowercase = true;
-            } else if byte.is_ascii_uppercase() {
-                has_uppercase = true;
+    pub fn calculate_tax(brackets: Vec<Vec<i32>>, income: i32) -> f64 {
+        let mut lower = 0;
+        let mut tax = 0.;
+        for bracket in brackets {
+            let (upper, percent) = (bracket[0], bracket[1]);
+            if upper > income {
+                tax += ((income - lower) * percent) as f64 / 100.;
+                break;
             } else {
-                has_special = true;
+                tax += ((upper - lower) * percent) as f64 / 100.;
             }
-            prev_byte = byte;
+            lower = upper;
         }
-        has_digit && has_lowercase && has_uppercase && has_special
+        tax
     }
 }
