@@ -1,24 +1,17 @@
-// Last updated: 11.08.2025, 14:02:31
-const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
-
+// Last updated: 11.08.2025, 14:05:55
 impl Solution {
-    pub fn greatest_letter(s: String) -> String {
-        let mut exists = vec![false; (b'z' + 1) as usize];
+    pub fn count_asterisks(s: String) -> i32 {
+        let mut outside = true;
+        let mut count = 0;
         for byte in s.bytes() {
-            exists[byte as usize] = true;
+            match byte {
+                b'|' => outside = !outside,
+                b'*' => if outside {
+                    count += 1
+                }
+                _ => {}
+            }
         }
-        if let Some(index) = exists[b'A' as usize..]
-            .iter()
-            .zip(&exists[b'a' as usize..])
-            .enumerate()
-            .take(ABC_LEN)
-            .rev()
-            .filter_map(|(index, (&upper, &lower))| if upper && lower { Some(index) } else { None })
-            .next()
-        {
-            ((index as u8 + b'A') as char).into()
-        } else {
-            String::new()
-        }
+        count
     }
 }
