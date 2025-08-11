@@ -1,17 +1,14 @@
-// Last updated: 11.08.2025, 14:05:55
+// Last updated: 11.08.2025, 15:24:03
 impl Solution {
-    pub fn count_asterisks(s: String) -> i32 {
-        let mut outside = true;
-        let mut count = 0;
-        for byte in s.bytes() {
-            match byte {
-                b'|' => outside = !outside,
-                b'*' => if outside {
-                    count += 1
+    pub fn check_x_matrix(grid: Vec<Vec<i32>>) -> bool {
+        for (r, row) in grid.into_iter().enumerate() {
+            let opposite = row.len() - r - 1;
+            for (c, cell) in row.into_iter().enumerate() {
+                if (c == r || c == opposite) == (cell == 0) {
+                    return false;
                 }
-                _ => {}
             }
         }
-        count
+        true
     }
 }
