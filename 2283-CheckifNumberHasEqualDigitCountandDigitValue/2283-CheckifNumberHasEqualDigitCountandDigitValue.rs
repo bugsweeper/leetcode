@@ -1,18 +1,24 @@
-// Last updated: 11.08.2025, 13:51:06
+// Last updated: 11.08.2025, 14:02:31
+const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
+
 impl Solution {
-    pub fn calculate_tax(brackets: Vec<Vec<i32>>, income: i32) -> f64 {
-        let mut lower = 0;
-        let mut tax = 0.;
-        for bracket in brackets {
-            let (upper, percent) = (bracket[0], bracket[1]);
-            if upper > income {
-                tax += ((income - lower) * percent) as f64 / 100.;
-                break;
-            } else {
-                tax += ((upper - lower) * percent) as f64 / 100.;
-            }
-            lower = upper;
+    pub fn greatest_letter(s: String) -> String {
+        let mut exists = vec![false; (b'z' + 1) as usize];
+        for byte in s.bytes() {
+            exists[byte as usize] = true;
         }
-        tax
+        if let Some(index) = exists[b'A' as usize..]
+            .iter()
+            .zip(&exists[b'a' as usize..])
+            .enumerate()
+            .take(ABC_LEN)
+            .rev()
+            .filter_map(|(index, (&upper, &lower))| if upper && lower { Some(index) } else { None })
+            .next()
+        {
+            ((index as u8 + b'A') as char).into()
+        } else {
+            String::new()
+        }
     }
 }
