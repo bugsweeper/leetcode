@@ -1,22 +1,20 @@
-// Last updated: 11.08.2025, 13:19:46
-const ABC_LEN: usize = (b'z' - b'a' + 1) as usize;
-
-#[inline]
-fn count(s: String) -> [i32; ABC_LEN] {
-    let mut count = [0; ABC_LEN];
-    for byte in s.bytes() {
-        count[(byte - b'a') as usize] += 1;
+// Last updated: 11.08.2025, 13:27:50
+fn min_max_game(nums: &[i32], bit: i32) -> i32 {
+    if nums.len() == 1 {
+        return nums[0]
     }
-    count
+    let half = nums.len() >> 1;
+    let left = min_max_game(&nums[..half], 0);
+    let right = min_max_game(&nums[half..], 1);
+    if bit == 0 {
+        left.min(right)
+    } else {
+        left.max(right)
+    }
 }
 
 impl Solution {
-    pub fn rearrange_characters(s: String, target: String) -> i32 {
-        count(s)
-            .into_iter()
-            .zip(count(target))
-            .filter_map(|(available, target)| if target == 0 {None} else {Some(available / target)})
-            .min()
-            .unwrap()
+    pub fn min_max_game(nums: Vec<i32>) -> i32 {
+        min_max_game(&nums, 0)
     }
 }
