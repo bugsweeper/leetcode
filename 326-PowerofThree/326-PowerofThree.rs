@@ -1,3 +1,4 @@
+// Last updated: 13.08.2025, 08:12:42
 impl Solution {
     pub fn is_power_of_three(n: i32) -> bool {
         if n < 1 {
