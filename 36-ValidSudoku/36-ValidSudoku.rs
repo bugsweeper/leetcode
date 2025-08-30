@@ -1,22 +1,22 @@
+// Last updated: 30.08.2025, 14:56:27
 impl Solution {
     pub fn is_valid_sudoku(board: Vec<Vec<char>>) -> bool {
-      let mut seen_column = [[false;9];9];
-      let mut seen_square = [[false;9];9];
+      let mut seen_column = [[false;10];9];
+      let mut seen_square = [[false;10];9];
       for (row_index, row) in board.iter().enumerate() {
-        let mut seen_row = [false;9];
-        for (column_index, &cell) in row.iter().enumerate() {
-          let mut digit = (cell as u8) & 0x0f;
+        let mut seen_row = [false;10];
+        for (column_index, (seen_column, &cell)) in seen_column.iter_mut().zip(row).enumerate() {
+          let digit = ((cell as u8) & 0x0f) as usize;
           if digit < 10 {
-            digit -= 1;
-            let seen_in_row = unsafe{seen_row.get_unchecked_mut(digit as usize)};
+            let seen_in_row = &mut seen_row[digit];
             if *seen_in_row {
               return false;
             }
-            let seen_in_column = unsafe{seen_column.get_unchecked_mut(column_index).get_unchecked_mut(digit as usize)};
+            let seen_in_column = &mut seen_column[digit];
             if *seen_in_column {
               return false;
             }
-            let seen_in_square = unsafe{seen_square.get_unchecked_mut(column_index / 3 + row_index / 3 * 3).get_unchecked_mut(digit as usize)};
+            let seen_in_square = &mut seen_square[column_index / 3 + row_index / 3 * 3][digit];
             if *seen_in_square {
               return false;
             }
