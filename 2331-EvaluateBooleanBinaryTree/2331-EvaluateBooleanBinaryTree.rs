@@ -1,16 +1,24 @@
-// Last updated: 08.09.2025, 14:55:37
+// Last updated: 08.09.2025, 16:18:38
 impl Solution {
-    pub fn number_of_pairs(nums: Vec<i32>) -> Vec<i32> {
-        let mut count = vec![0; 101];
-        for &num in &nums {
-            count[num as usize] += 1;
+    pub fn best_hand(ranks: Vec<i32>, suits: Vec<char>) -> String {
+        let first_suit = suits[0];
+        if suits.into_iter().skip(1).all(|suit| suit == first_suit) {
+            return "Flush".into();
         }
-        let mut leftover = 0;
-        for count in count {
-            if count & 1 == 1 {
-                leftover += 1;
+        let mut max_rank_count = 0;
+        let mut rank_count = vec![0; 14];
+        for rank in ranks {
+            let rank_count = &mut rank_count[rank as usize];
+            *rank_count += 1;
+            if *rank_count == 3 {
+                return "Three of a Kind".into();
             }
+            max_rank_count = max_rank_count.max(*rank_count);
         }
-        vec![(nums.len() as i32 - leftover) >> 1, leftover]
+        return if max_rank_count == 2 {
+            "Pair"
+        } else {
+            "High Card"
+        }.into()
     }
 }
