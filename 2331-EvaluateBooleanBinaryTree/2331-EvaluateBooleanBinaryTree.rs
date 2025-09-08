@@ -1,14 +1,10 @@
-// Last updated: 08.09.2025, 16:22:29
+// Last updated: 08.09.2025, 16:26:43
 impl Solution {
-    pub fn repeated_character(s: String) -> char {
-        let mut seen = vec![false; b'z' as usize + 1];
-        for byte in s.bytes() {
-            let mut seen = &mut seen[byte as usize];
-            if *seen {
-                return byte as char;
-            }
-            *seen = true;
+    pub fn minimum_operations(nums: Vec<i32>) -> i32 {
+        let mut seen = vec![false; 101];
+        for num in nums {
+            seen[num as usize] = true;
         }
-        unimplemented!()
+        seen.into_iter().skip(1).filter(|&seen| seen).count() as i32
     }
 }
