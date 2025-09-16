@@ -1,4 +1,4 @@
-// Last updated: 16.09.2025, 23:25:34
+// Last updated: 16.09.2025, 23:33:50
 #[inline]
 fn gcd(mut x: i32, mut y: i32) -> i32 {
     if x < y {
@@ -12,27 +12,18 @@ fn gcd(mut x: i32, mut y: i32) -> i32 {
 
 impl Solution {
     pub fn replace_non_coprimes(nums: Vec<i32>) -> Vec<i32> {
-        let mut cur = nums[0];
         let mut answer = Vec::with_capacity(nums.len());
-        for num in nums.into_iter().skip(1).chain(std::iter::once(1)) {
-            let gcd1 = gcd(cur, num);
-            if gcd1 == 1 {
-                // check if last item could be merged with cur
-                while let Some(prev) = answer.pop() {
-                    let gcd2 = gcd(prev, cur);
-                    if gcd2 == 1 {
-                        // at least we tried
-                        answer.push(prev);
-                        break;
-                    } else {
-                        cur = cur / gcd2 * prev;
-                    }
+        for mut num in nums {
+            while let Some(&last) = answer.last() {
+                let gcd = gcd(last, num);
+                if gcd == 1 {
+                    break;
+                } else {
+                    num *= last / gcd;
+                    answer.pop();
                 }
-                answer.push(cur);
-                cur = num;
-            } else {
-                cur = cur / gcd1 * num;
             }
+            answer.push(num);
         }
         answer
     }
