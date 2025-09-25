@@ -1,4 +1,4 @@
-// Last updated: 21.04.2025, 09:39:17
+// Last updated: 25.09.2025, 06:01:34
 impl Solution {
     pub fn minimum_total(triangle: Vec<Vec<i32>>) -> i32 {
         let mut min_sum_row = vec![0; triangle.len()];
