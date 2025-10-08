@@ -1,4 +1,4 @@
-// Last updated: 09.05.2025, 23:07:20
+// Last updated: 08.10.2025, 09:15:44
 impl Solution {
     pub fn successful_pairs(spells: Vec<i32>, potions: Vec<i32>, success: i64) -> Vec<i32> {
         let mut potions = potions;
